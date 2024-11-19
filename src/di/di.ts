@@ -19,23 +19,39 @@ import { IntegrationEventRepository } from '../infrastructure/repository/integra
 import { IIntegrationEventRepository } from '../application/port/integration.event.repository.interface'
 import { IntegrationEventRepoModel } from '../infrastructure/database/schema/integration.event.schema'
 import { PublishEventBusTask } from '../background/task/publish.event.bus.task'
-import { DirectoryRepoModel } from '../infrastructure/database/schema/directory.schema'
-import { Directory } from '../application/domain/model/directory'
-import { DirectoryEntity } from '../infrastructure/database/entity/directory.entity'
-import { DirectoryMapper } from '../infrastructure/database/entity/mapper/directory.mapper'
+import { UserRepoModel } from '../infrastructure/database/schema/user.schema'
+import { User } from '../application/domain/model/user'
+import { DirectoryEntity, UserEntity } from '../infrastructure/database/entity/user.entity'
+import { DirectoryMapper, UserEntityMapper } from '../infrastructure/database/entity/mapper/user.entity.mapper'
 import { IEntityMapper } from '../infrastructure/port/entity.mapper.interface'
-import { IDirectoryRepository } from '../application/port/directory.repository.interface'
-import { DirectoryRepository } from '../infrastructure/repository/directory.repository'
-import { DirectoryCotroller } from '../ui/controllers/directory.cotroller'
-import { IDirectoryService } from '../application/port/directory.service.interface'
-import { DirectoryService } from '../application/service/directory.service'
+import { IUserRepository } from 'application/port/user.repository.interface'
+import { DirectoryRepository, UserRepository } from '../infrastructure/repository/user.repository'
+import { DirectoryCotroller, UsersController } from '../ui/controllers/users.controller'
+import { IDirectoryService } from '../application/port/user.service.interface'
+import { DirectoryService } from '../application/service/user.service'
 import { SubscribeEventBusTask } from '../background/task/subscribe.event.bus.task'
 import { RpcServerEventBusTask } from '../background/task/rpc.server.event.bus.task'
 import { FileController } from '../ui/controllers/file.controller'
-import { FileRepository } from '../infrastructure/repository/file.repository'
-import { IFileRepository } from '../application/port/file.repository.interface'
+import { FileRepository } from '../infrastructure/repository/admin.repository'
+import { IFileRepository } from '../application/port/admin.repository.interface'
 import { FileService } from '../application/service/file.service'
-import { IFileService } from '../application/port/file.service.interface'
+import { IFileService } from '../application/port/admin.service.interface'
+import { Client } from 'application/domain/model/client'
+import { Admin } from 'application/domain/model/admin'
+import { AdminEntity } from 'infrastructure/database/entity/admin.entity'
+import { ClientEntity } from 'infrastructure/database/entity/client.entity'
+import { Employee } from 'application/domain/model/employee'
+import { EmployeeEntity } from 'infrastructure/database/entity/employee.entity'
+import { ClientEntityMapper } from 'infrastructure/database/entity/mapper/client.entity.mapper'
+import { EmployeeEntityMapper } from 'infrastructure/database/entity/mapper/employee.entity.mapper'
+import { IClientRepository } from 'application/port/client.repository.interface'
+import { ClientRepository } from 'infrastructure/repository/client.repository'
+import { IEmployeeRepository } from 'application/port/employee.repository.interface'
+import { EmployeeRepository } from 'infrastructure/repository/employee.repository'
+import { IGatewayRepository } from 'application/port/gateway.repository.interface'
+import { GatewayRepository } from 'infrastructure/repository/gateway.repository'
+import { IAuthRepository } from 'application/port/auth.repository.interface'
+import { AuthRepository } from 'infrastructure/repository/auth.repository'
 
 class IoC {
     private readonly _container: Container
@@ -69,8 +85,8 @@ class IoC {
 
         // Controllers
         this._container
-            .bind<DirectoryCotroller>(Identifier.DIRECTORY_CONTROLLER)
-            .to(DirectoryCotroller).inSingletonScope()
+            .bind<UserController>(Identifier.USER_CONTROLLER)
+            .to(UsersController).inSingletonScope()
         this._container
             .bind<FileController>(Identifier.FILE_CONTROLLER)
             .to(FileController).inSingletonScope()
@@ -83,27 +99,46 @@ class IoC {
             .bind<IFileService>(Identifier.FILE_SERVICE)
             .to(FileService).inSingletonScope()
 
-        // Repository
+        // Repository Ok
         this._container
             .bind<IIntegrationEventRepository>(Identifier.INTEGRATION_EVENT_REPOSITORY)
             .to(IntegrationEventRepository).inSingletonScope()
         this._container
-            .bind<IDirectoryRepository>(Identifier.DIRECTORY_REPOSITORY)
-            .to(DirectoryRepository).inSingletonScope()
+            .bind<IGatewayRepository>(Identifier.GATEWAY_REPOSITORY)
+            .to(GatewayRepository).inSingletonScope()
         this._container
-            .bind<IFileRepository>(Identifier.FILE_REPOSITORY)
-            .to(FileRepository).inSingletonScope()
+            .bind<IAuthRepository>(Identifier.AUTH_REPOSITORY)
+            .to(AuthRepository).inSingletonScope()
+        this._container
+            .bind<IUserRepository>(Identifier.USER_REPOSITORY)
+            .to(UserRepository).inSingletonScope()
+        this._container
+            .bind<IClientRepository>(Identifier.CLIENT_REPOSITORY)
+            .to(ClientRepository).inSingletonScope()
+        this._container
+            .bind<IEmployeeRepository>(Identifier.EMPLOYEE_REPOSITORY)
+            .to(EmployeeRepository).inSingletonScope()
 
-        // Models
+        // Models Ok
         this._container.bind(Identifier.INTEGRATION_EVENT_REPO_MODEL).toConstantValue(IntegrationEventRepoModel)
-        this._container.bind(Identifier.DIRECTORY_REPO_MODEL).toConstantValue(DirectoryRepoModel)
+        this._container.bind(Identifier.USER_REPO_MODEL).toConstantValue(UserRepoModel)
+        
 
         // Service
 
-        // Mapper
+        // Mappers Ok
         this._container
-            .bind<IEntityMapper<Directory, DirectoryEntity>>(Identifier.DIRECTORY_MAPPER)
-            .to(DirectoryMapper).inSingletonScope()
+            .bind<IEntityMapper<User, UserEntity>>(Identifier.USER_ENTITY_MAPPER)
+            .to(UserEntityMapper).inSingletonScope()
+        this._container
+            .bind<IEntityMapper<Admin, AdminEntity>>(Identifier.ADMIN_ENTITY_MAPPER)
+            .to(UserEntityMapper).inSingletonScope()
+        this._container
+            .bind<IEntityMapper<Client, ClientEntity>>(Identifier.CLIENT_ENTITY_MAPPER)
+            .to(ClientEntityMapper).inSingletonScope()
+        this._container
+            .bind<IEntityMapper<Employee, EmployeeEntity>>(Identifier.EMPLOYEE_ENTITY_MAPPER)
+            .to(EmployeeEntityMapper).inSingletonScope()
 
         // Background Services
         this._container

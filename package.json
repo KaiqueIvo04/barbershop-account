@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "amqp-client-node": "^1.0.11",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",
     "data-cross": "file:../barbershop-account",

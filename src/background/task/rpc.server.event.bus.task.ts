@@ -2,7 +2,7 @@ import { IBackgroundTask } from '../../application/port/background.task.interfac
 import { inject, injectable } from 'inversify'
 import { Identifier } from '../../di/identifiers'
 import { IEventBus } from '../../infrastructure/port/event.bus.interface'
-import { IDirectoryService } from '../../application/port/directory.service.interface'
+import { IDirectoryService } from '../../application/port/user.service.interface'
 import { ILogger } from '../../utils/custom.logger'
 
 @injectable()

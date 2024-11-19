@@ -1,6 +1,6 @@
 import { inject } from 'inversify'
 import { Identifier } from '../../di/identifiers'
-import { IFileService } from '../../application/port/file.service.interface'
+import { IFileService } from '../../application/port/admin.service.interface'
 import { controller, httpDelete, httpGet, httpPost, request, response } from 'inversify-express-utils'
 import { Request, Response } from 'express'
 import HttpStatus from 'http-status-codes'
@@ -8,7 +8,7 @@ import { unlinkSync } from 'fs'
 import { ApiExceptionManager } from '../exception/api.exception.manager'
 import { Query } from '../../infrastructure/repository/query/query'
 import { SendFile } from '../../application/domain/model/send.file'
-import { IDirectoryService } from '../../application/port/directory.service.interface'
+import { IDirectoryService } from '../../application/port/user.service.interface'
 
 @controller('/v1/files')
 export class FileController {

@@ -6,7 +6,7 @@ import { ILogger } from '../../utils/custom.logger'
 import { FileSyncEvent } from '../../application/integration-event/event/file.sync.event'
 import { FileSyncEventHandler } from '../../application/integration-event/handler/file.sync.event.handler'
 import { DIContainer } from '../../di/di'
-import { IDirectoryService } from '../../application/port/directory.service.interface'
+import { IDirectoryService } from '../../application/port/user.service.interface'
 
 @injectable()
 export class SubscribeEventBusTask implements IBackgroundTask {

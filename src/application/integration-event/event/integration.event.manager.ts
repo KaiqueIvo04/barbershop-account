@@ -2,13 +2,13 @@ import { Strings } from '../../../utils/strings'
 import { EventBusException } from '../../domain/exception/eventbus.exception'
 import { IJSONSerializable } from '../../domain/utils/json.serializable.interface'
 import { IntegrationEvent } from './integration.event'
-import { FileSyncEvent } from './file.sync.event'
+//import { FileSyncEvent } from './file.sync.event'
 
 export abstract class IntegrationEventManager {
 
     private static buildByName(event: any): IntegrationEvent<IJSONSerializable> {
         const buildFn = {
-            'FileSyncEvent': () => new FileSyncEvent().fromJSON(event),
+            //'FileSyncEvent': () => new FileSyncEvent().fromJSON(event),
         }[event.event_name]
 
         if (buildFn === undefined)

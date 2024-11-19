@@ -5,7 +5,7 @@ export interface IEntityMapper<M extends Entity, EM> {
 
     modelToModelEntity(item: M): EM
 
-    modelEntityToModel(item: EM): M
+    //modelEntityToModel(item: EM): M
 
     jsonToModel(json: any): M
 }

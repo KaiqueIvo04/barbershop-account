@@ -5,8 +5,8 @@ import { User } from "./user";
 
 export class Employee extends User {
     private _role?: string | undefined;
-    private _status?: boolean | undefined;
-    private _responsible_admin?: string | undefined;
+    private _avaliable?: boolean | undefined;
+    private _responsible_admin_id?: string | undefined;
 
     public get role(): string | undefined {
         return this._role;
@@ -16,20 +16,20 @@ export class Employee extends User {
         this._role = value;
     }
 
-    public get status(): boolean | undefined {
-        return this._status;
+    public get avaliable(): boolean | undefined {
+        return this._avaliable;
     }
 
-    public set status(value: boolean | undefined) {
-        this._status = value;
+    public set avaliable(value: boolean | undefined) {
+        this._avaliable = value;
     }
 
-    public get responsible_admin(): string | undefined {
-        return this._responsible_admin;
+    public get responsible_admin_id(): string | undefined {
+        return this._responsible_admin_id;
     }
 
-    public set responsible_admin(value: string | undefined) {
-        this._responsible_admin = value;
+    public set responsible_admin_id(value: string | undefined) {
+        this._responsible_admin_id = value;
     }
     
     constructor() {
@@ -50,8 +50,8 @@ export class Employee extends User {
         if (json.email !== undefined) this.email = json.email
         if (json.password !== undefined) this.password = json.password
         if (json.role !== undefined) this.role = json.role
-        if (json.status !== undefined) this.status = json.status
-        if (json.responsible_admin !== undefined) this.responsible_admin = json.responsible_admin
+        if (json.avaliable !== undefined) this.avaliable = json.avaliable
+        if (json.responsible_admin !== undefined) this.responsible_admin_id = json.responsible_admin
 
         return this
     }
@@ -60,8 +60,8 @@ export class Employee extends User {
         return {
             ...super.toJSON(),
             role: this.role,
-            status: this.status,
-            responsible_admin: this.responsible_admin
+            avaliable: this.avaliable,
+            responsible_admin: this.responsible_admin_id
         }
     }
 }

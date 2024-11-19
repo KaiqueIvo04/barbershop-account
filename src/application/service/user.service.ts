@@ -1,27 +1,25 @@
-import { IDirectoryService } from '../port/directory.service.interface'
-import { Directory } from '../domain/model/directory'
+import { IUserService } from '../port/user.service.interface'
+import { User } from '../domain/model/user'
 import { IQuery } from '../port/query.interface'
 import { inject, injectable } from 'inversify'
 import { Identifier } from '../../di/identifiers'
-import { IDirectoryRepository } from '../port/directory.repository.interface'
+import { IUserRepository } from '../port/user.repository.interface'
+import { IIntegrationEventRepository } from 'application/port/integration.event.repository.interface'
 import { ConflictException } from '../domain/exception/conflict.exception'
 import { Strings } from '../../utils/strings'
 import { Query } from '../../infrastructure/repository/query/query'
-import { TypeDrive } from '../domain/utils/enum'
-import { SendFile } from '../domain/model/send.file'
-import { IFileRepository } from '../port/file.repository.interface'
-import { File } from '../domain/model/file'
 
 @injectable()
-export class DirectoryService implements IDirectoryService {
+export class UserService implements IUserService {
 
     constructor(
-        @inject(Identifier.DIRECTORY_REPOSITORY) private readonly _repository: IDirectoryRepository,
-        @inject(Identifier.FILE_REPOSITORY) private readonly _fRepository: IFileRepository,
+        @inject(Identifier.User_REPOSITORY) private readonly _userRepository: IUserRepository,
+        @inject(Identifier.INTEGRATION_EVENT_REPOSITORY)
+        private readonly _integrationEventRepository: IIntegrationEventRepository,
     ) {
     }
 
-    public async add(item: Directory): Promise<Directory | undefined> {
+    public async add(item: User): Promise<User | undefined> {
         try {
             const exist = await this._repository.checkExists(item)
             if (exist) throw new ConflictException(Strings.ERROR_MESSAGE.FILE_ALREADY_EXISTS)
@@ -46,7 +44,7 @@ export class DirectoryService implements IDirectoryService {
         return this._repository.count(query)
     }
 
-    public async createFolder(name: string, directory_id: string): Promise<Directory | undefined> {
+    public async createFolder(name: string, User_id: string): Promise<User | undefined> {
         try {
             const query = new Query()
             query.addFilter({
@@ -55,10 +53,10 @@ export class DirectoryService implements IDirectoryService {
             const exist = await this._repository.findOne(query)
             if (exist) throw new ConflictException(Strings.ERROR_MESSAGE.FILE_ALREADY_EXISTS_NAME)
 
-            const result = await this._repository.create(new Directory().fromJSON({
+            const result = await this._repository.create(new User().fromJSON({
                 name,
-                type: TypeDrive.DIRECTORY,
-                directory: directory_id
+                type: TypeDrive.User,
+                User: User_id
             }))
 
             return Promise.resolve(result)
@@ -67,12 +65,12 @@ export class DirectoryService implements IDirectoryService {
         }
     }
 
-    public async getAll(query: IQuery): Promise<Array<Directory>> {
+    public async getAll(query: IQuery): Promise<Array<User>> {
         const result = await this._repository.find(query)
-        const directorys: Array<Directory> = []
-        for (const directory of result) {
+        const Users: Array<User> = []
+        for (const User of result) {
             const files: Array<File> = []
-            const file: Array<any> = await this._fRepository.findByDirectory(directory.id as string)
+            const file: Array<any> = await this._fRepository.findByUser(User.id as string)
             for (const fl of file) {
                 const fil = new File().fromJSON({
                     file_id: fl._id,
@@ -80,23 +78,23 @@ export class DirectoryService implements IDirectoryService {
                 })
                 files.push(fil)
             }
-            const direct = new Directory().fromJSON({
-                ...directory.toJSON(),
+            const direct = new User().fromJSON({
+                ...User.toJSON(),
             })
             direct.files = files
-            directorys.push(direct)
+            Users.push(direct)
         }
-        return directorys
+        return Users
     }
 
-    public async getById(id: string, query: IQuery): Promise<Directory | undefined> {
+    public async getById(id: string, query: IQuery): Promise<User | undefined> {
         query.addFilter({ _id: id })
         const result = await this._repository.findOne(query)
-        const directory = new Directory().fromJSON({
+        const User = new User().fromJSON({
             ...result?.toJSON()
         })
         const files: Array<File> = []
-        const file: Array<any> = await this._fRepository.findByDirectory(result?.id as string)
+        const file: Array<any> = await this._fRepository.findByUser(result?.id as string)
         for (const fl of file) {
             const fil = new File().fromJSON({
                 file_id: fl._id,
@@ -104,8 +102,8 @@ export class DirectoryService implements IDirectoryService {
             })
             files.push(fil)
         }
-        directory.files = files
-        return directory
+        User.files = files
+        return User
     }
 
     public remove(id: string): Promise<boolean> {
@@ -119,13 +117,13 @@ export class DirectoryService implements IDirectoryService {
         }
     }
 
-    public update(item: Directory): Promise<Directory | undefined> {
+    public update(item: User): Promise<User | undefined> {
         return this._repository.update(item)
     }
 
-    public async updateFolder(item: Directory): Promise<Directory | undefined> {
+    public async updateFolder(item: User): Promise<User | undefined> {
         try {
-            if (item.type !== TypeDrive.DIRECTORY) throw new ConflictException(Strings.ERROR_MESSAGE.CANNOT_CHANGE_THE_TYPE)
+            if (item.type !== TypeDrive.User) throw new ConflictException(Strings.ERROR_MESSAGE.CANNOT_CHANGE_THE_TYPE)
 
             const result = await this._repository.update(item)
 
@@ -135,20 +133,20 @@ export class DirectoryService implements IDirectoryService {
         }
     }
 
-    public async uploadFiles(files: SendFile): Promise<Directory | undefined> {
+    public async uploadFiles(files: SendFile): Promise<User | undefined> {
         try {
             if (!files.files?.length) {
                 throw new Error(Strings.ERROR_MESSAGE.FILE_NOT_PROVIDE)
             }
 
-            const directory = await this._repository.findOne(new Query().fromJSON({
-                _id: files.directory_id
+            const User = await this._repository.findOne(new Query().fromJSON({
+                _id: files.User_id
             }))
 
-            directory?.files?.push(...files.files)
+            User?.files?.push(...files.files)
 
-            if (directory instanceof Directory) {
-                const result = await this._repository.update(directory)
+            if (User instanceof User) {
+                const result = await this._repository.update(User)
                 return Promise.resolve(result)
             }
         } catch (err) {

@@ -7,7 +7,7 @@ import { Config } from '../utils/config'
 import { ILogger } from '../utils/custom.logger'
 import { Directory } from '../application/domain/model/directory'
 import { TypeDrive } from '../application/domain/utils/enum'
-import { IDirectoryService } from '../application/port/directory.service.interface'
+import { IDirectoryService } from '../application/port/user.service.interface'
 
 @injectable()
 export class BackgroundService {

@@ -1,75 +1,108 @@
-import { Entity } from "./entity";
+import { Entity } from './entity'
 import { JsonUtils } from '../utils/json.utils'
-import { IJSONDeserializable } from "../utils/json.deserializable.interface";
-import { IJSONSerializable } from "../utils/json.serializable.interface";
+import { IJSONSerializable } from '../utils/json.serializable.interface'
+import { IJSONDeserializable } from '../utils/json.deserializable.interface'
 
-export class User extends Entity implements IJSONDeserializable<User>, IJSONSerializable {
-    private _name?: string;
-    private _password?: string;
-    private _email?: string;
-    private _contact_personal?: string;
-    private _type?: string; //Type of user
-    private _scopes!: Array<string>;  // Scope that defines the types of access the user has.
-    private _last_login?: Date;  // Date of the last login of the User on the platform in UTC, according to the ISO 8601 format.
+/**
+ * Implementation of the user entity.
+ *
+ * @extends {Entity}
+ * @implements {IJSONSerializable, IJSONDeserializable<User>}
+ */
+export class User extends Entity implements IJSONSerializable, IJSONDeserializable<User> {
+    private _name?: string  // User name.
+    private _contact_personal?: string  // User contact_personal.
+    private _email?: string  // User email.
+    private _password?: string  // Password for User authentication.
+    private _last_login?: Date  // Date of the last login of the User on the platform in UTC, according to the ISO 8601 format.
+    private _type?: string  // Type of user. Can be Admin, Manager, Requester, Regulator or Operator.
+    private _scopes!: Array<string>  // Scope that defines the types of access the user has.
+    private _protected?: boolean  // To block (or not) remove an Admin user.
+    private _password_reset_token?: string  // Temporary token of password reset.
+    private _active?: boolean  // Flag that indicates if the user is active or not
 
     constructor() {
         super()
     }
 
-    public get name(): string | undefined {
-        return this._name;
+    get name(): string | undefined {
+        return this._name
     }
 
-    public set name(value: string | undefined) {
-        this._name = value;
+    set name(value: string | undefined) {
+        this._name = value
     }
 
-    public get password(): string | undefined {
-        return this._password;
+    get contact_personal(): string | undefined {
+        return this._contact_personal
     }
 
-    public set password(value: string | undefined) {
-        this._password = value;
+    set contact_personal(value: string | undefined) {
+        this._contact_personal = value
     }
 
-    public get email(): string | undefined {
-        return this._email;
+    get email(): string | undefined {
+        return this._email
     }
 
-    public set email(value: string | undefined) {
-        this._email = value;
+    set email(value: string | undefined) {
+        this._email = value
     }
 
-    public get contact_personal(): string | undefined {
-        return this._contact_personal;
+    get password(): string | undefined {
+        return this._password
     }
 
-    public set contact_personal(value: string) {
-        this._contact_personal = value;
+    set password(value: string | undefined) {
+        this._password = value
     }
 
-    public get type(): string | undefined {
-        return this._type;
+    get last_login(): Date | undefined {
+        return this._last_login
     }
 
-    public set type(value: string | undefined) {
-        this._type = value;
-    }
-    
-    public get scopes(): Array<string> {
-        return this._scopes;
+    set last_login(value: Date | undefined) {
+        this._last_login = value
     }
 
-    public set scopes(value: Array<string>) {
-        this._scopes = value;
+    get type(): string | undefined {
+        return this._type
     }
 
-    public get last_login(): Date | undefined {
-        return this._last_login;
+    set type(value: string | undefined) {
+        this._type = value
     }
 
-    public set last_login(value: Date | undefined) {
-        this._last_login = value;
+    get scopes(): Array<string> {
+        return this._scopes
+    }
+
+    set scopes(value: Array<string>) {
+        this._scopes = value
+    }
+
+    get protected(): boolean | undefined {
+        return this._protected
+    }
+
+    set protected(value: boolean | undefined) {
+        this._protected = value
+    }
+
+    get password_reset_token(): string | undefined {
+        return this._password_reset_token
+    }
+
+    set password_reset_token(value: string | undefined) {
+        this._password_reset_token = value
+    }
+
+    get active(): boolean | undefined {
+        return this._active
+    }
+
+    set active(value: boolean | undefined) {
+        this._active = value
     }
 
     public fromJSON(json: any): User {
@@ -93,8 +126,9 @@ export class User extends Entity implements IJSONDeserializable<User>, IJSONSeri
             created_at: super.created_at,
             updated_at: super.updated_at,
             name: this.name,
-            contact_personal: this._contact_personal,
+            contact_personal: this.contact_personal,
             email: this.email,
+            active: this.active,
             type: this.type,
             last_login: this.last_login
         }
