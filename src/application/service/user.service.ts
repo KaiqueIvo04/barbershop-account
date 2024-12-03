@@ -1,157 +1,129 @@
 import { IUserService } from '../port/user.service.interface'
 import { User } from '../domain/model/user'
+import { Email } from 'application/domain/model/email'
 import { IQuery } from '../port/query.interface'
 import { inject, injectable } from 'inversify'
 import { Identifier } from '../../di/identifiers'
 import { IUserRepository } from '../port/user.repository.interface'
 import { IIntegrationEventRepository } from 'application/port/integration.event.repository.interface'
-import { ConflictException } from '../domain/exception/conflict.exception'
+import { ObjectIdValidator } from 'application/domain/validator/object.id.validator'
+import { UserParamsValidator } from 'application/domain/validator/user.params.validator'
+import { UpdateUserActiveValidator } from 'application/domain/validator/update.user.active.validator'
+import { NotFoundException } from 'application/domain/exception/not.found.exception'
 import { Strings } from '../../utils/strings'
-import { Query } from '../../infrastructure/repository/query/query'
 
 @injectable()
 export class UserService implements IUserService {
-
     constructor(
-        @inject(Identifier.User_REPOSITORY) private readonly _userRepository: IUserRepository,
-        @inject(Identifier.INTEGRATION_EVENT_REPOSITORY)
-        private readonly _integrationEventRepository: IIntegrationEventRepository,
+        @inject(Identifier.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
+        //@inject(Identifier.INTEGRATION_EVENT_REPOSITORY) private readonly _integrationEventRepository: IIntegrationEventRepository,
     ) {
     }
 
-    public async add(item: User): Promise<User | undefined> {
+    public add(item: User): Promise<User> {
+        throw new Error('Unsupported feature!')
+    }
+
+    public getAll(query: IQuery): Promise<Array<User>> {
+        return this._userRepository.find(query)
+    }
+
+    public getById(id: string, query: IQuery): Promise<User | undefined> {
         try {
-            const exist = await this._repository.checkExists(item)
-            if (exist) throw new ConflictException(Strings.ERROR_MESSAGE.FILE_ALREADY_EXISTS)
+            ObjectIdValidator.validate(id, Strings.USER.PARAM_ID_NOT_VALID_FORMAT)
 
-            const isRoot = await this._repository.find(new Query().fromJSON({
-                type: TypeDrive.ROOT
-            }))
-
-            if (isRoot.length > 1) {
-                throw new ConflictException(Strings.ERROR_MESSAGE.ROOT_ALREADY_EXISTS)
-            }
-
-            const result = await this._repository.create(item)
-
-            return Promise.resolve(result)
+            return this._userRepository.findOne(query)
         } catch (err) {
             return Promise.reject(err)
         }
+    }
+
+    public update(item: User): Promise<User> {
+        throw new Error('Unsupported feature!')
     }
 
     public count(query: IQuery): Promise<number> {
-        return this._repository.count(query)
+        return this._userRepository.count(query)
     }
 
-    public async createFolder(name: string, User_id: string): Promise<User | undefined> {
-        try {
-            const query = new Query()
-            query.addFilter({
-                _name: name
-            })
-            const exist = await this._repository.findOne(query)
-            if (exist) throw new ConflictException(Strings.ERROR_MESSAGE.FILE_ALREADY_EXISTS_NAME)
+    // public async updateActive(id: string, active: boolean): Promise<User | undefined> {
+    //     try {
+    //         ObjectIdValidator.validate(id, Strings.USER.PARAM_ID_NOT_VALID_FORMAT)
 
-            const result = await this._repository.create(new User().fromJSON({
-                name,
-                type: TypeDrive.User,
-                User: User_id
-            }))
+    //         const user: User | undefined = await this._userRepository.findById(id)
 
-            return Promise.resolve(result)
-        } catch (err) {
-            return Promise.reject(err)
-        }
-    }
+    //         if (!user) return Promise.reject(new NotFoundException(Strings.USER.NOT_FOUND, Strings.USER.NOT_FOUND_DESCRIPTION))
 
-    public async getAll(query: IQuery): Promise<Array<User>> {
-        const result = await this._repository.find(query)
-        const Users: Array<User> = []
-        for (const User of result) {
-            const files: Array<File> = []
-            const file: Array<any> = await this._fRepository.findByUser(User.id as string)
-            for (const fl of file) {
-                const fil = new File().fromJSON({
-                    file_id: fl._id,
-                    file_name: fl.filename
-                })
-                files.push(fil)
-            }
-            const direct = new User().fromJSON({
-                ...User.toJSON(),
-            })
-            direct.files = files
-            Users.push(direct)
-        }
-        return Users
-    }
+    //         UpdateUserActiveValidator.validate(user, active)
 
-    public async getById(id: string, query: IQuery): Promise<User | undefined> {
-        query.addFilter({ _id: id })
-        const result = await this._repository.findOne(query)
-        const User = new User().fromJSON({
-            ...result?.toJSON()
-        })
-        const files: Array<File> = []
-        const file: Array<any> = await this._fRepository.findByUser(result?.id as string)
-        for (const fl of file) {
-            const fil = new File().fromJSON({
-                file_id: fl._id,
-                file_name: fl.filename
-            })
-            files.push(fil)
-        }
-        User.files = files
-        return User
-    }
+    //         const result: User | undefined = await this._userRepository.updateActive(id, active)
 
-    public remove(id: string): Promise<boolean> {
-        try {
-            this._fRepository.downloadFile(id)
-            this._repository.delete(id)
+    //         // If User has been deactivated, publish a UserDeactivateEvent on the message bus.
+    //         if (result && !active && user.active) {
+    //             await this._integrationEventRepository.publishEvent(new UserDeactivateEvent(new Date()))
+    //         }
 
-            return Promise.resolve(true)
-        } catch (err) {
-            return Promise.reject(err)
-        }
-    }
+    //         return Promise.resolve(result)
+    //     } catch (err) {
+    //         return Promise.reject(err)
+    //     }
 
-    public update(item: User): Promise<User | undefined> {
-        return this._repository.update(item)
-    }
+    // public async resetPassword(id: string, password: string): Promise<User | undefined> {
+    //     try {
+    //         // 1. Validate user ID
+    //         ObjectIdValidator.validate(id, Strings.USER.PARAM_ID_NOT_VALID_FORMAT)
 
-    public async updateFolder(item: User): Promise<User | undefined> {
-        try {
-            if (item.type !== TypeDrive.User) throw new ConflictException(Strings.ERROR_MESSAGE.CANNOT_CHANGE_THE_TYPE)
+    //         // 2. Find user by id
+    //         const userResult = await this._userRepository.findById(id)
 
-            const result = await this._repository.update(item)
+    //         // 3. Validate password
+    //         UserParamsValidator.validatePassword(password, 'password')
 
-            return Promise.resolve(result)
-        } catch (err) {
-            return Promise.reject(err)
-        }
-    }
+    //         // 4. Update user password
+    //         const result: User | undefined = await this._userRepository.resetUserPassword(id, password)
+    //         if (result && userResult) {
+    //             const mail: Email = new Email().fromJSON({
+    //                 to: {
+    //                     name: userResult.name,
+    //                     email: userResult.email
+    //                 },
+    //             })
 
-    public async uploadFiles(files: SendFile): Promise<User | undefined> {
-        try {
-            if (!files.files?.length) {
-                throw new Error(Strings.ERROR_MESSAGE.FILE_NOT_PROVIDE)
-            }
+    //             this._integrationEventRepository.publishEvent(new EmailUpdatePasswordEvent(new Date(), mail))
 
-            const User = await this._repository.findOne(new Query().fromJSON({
-                _id: files.User_id
-            }))
+    //         }
 
-            User?.files?.push(...files.files)
+    //         return Promise.resolve(result)
+    //     } catch (err) {
+    //         return Promise.reject(err)
+    //     }
+    // }
 
-            if (User instanceof User) {
-                const result = await this._repository.update(User)
-                return Promise.resolve(result)
-            }
-        } catch (err) {
-            return Promise.reject(err)
-        }
+    // public async updateActive(id: string, active: boolean): Promise<User | undefined> {
+    //     try {
+    //         ObjectIdValidator.validate(id, Strings.USER.PARAM_ID_NOT_VALID_FORMAT)
+
+    //         const user: User | undefined = await this._userRepository.findById(id)
+
+    //         if (!user) return Promise.reject(new NotFoundException(Strings.USER.NOT_FOUND, Strings.USER.NOT_FOUND_DESCRIPTION))
+
+    //         UpdateUserActiveValidator.validate(user, active)
+
+    //         const result: User | undefined = await this._userRepository.updateActive(id, active)
+
+    //         // If User has been deactivated, publish a UserDeactivateEvent on the message bus.
+    //         if (result && !active && user.active) {
+    //             await this._integrationEventRepository.publishEvent(new UserDeactivateEvent(new Date()))
+    //         }
+
+    //         return Promise.resolve(result)
+    //     } catch (err) {
+    //         return Promise.reject(err)
+    //     }
+    // }
+
+    public async remove(id: string): Promise<boolean> {
+        throw new Error('Unsupported feature!')
     }
 
 }

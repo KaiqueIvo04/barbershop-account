@@ -21,21 +21,18 @@ import { IntegrationEventRepoModel } from '../infrastructure/database/schema/int
 import { PublishEventBusTask } from '../background/task/publish.event.bus.task'
 import { UserRepoModel } from '../infrastructure/database/schema/user.schema'
 import { User } from '../application/domain/model/user'
-import { DirectoryEntity, UserEntity } from '../infrastructure/database/entity/user.entity'
-import { DirectoryMapper, UserEntityMapper } from '../infrastructure/database/entity/mapper/user.entity.mapper'
+import { UserEntity } from '../infrastructure/database/entity/user.entity'
+import { UserEntityMapper } from '../infrastructure/database/entity/mapper/user.entity.mapper'
 import { IEntityMapper } from '../infrastructure/port/entity.mapper.interface'
 import { IUserRepository } from 'application/port/user.repository.interface'
-import { DirectoryRepository, UserRepository } from '../infrastructure/repository/user.repository'
-import { DirectoryCotroller, UsersController } from '../ui/controllers/users.controller'
-import { IDirectoryService } from '../application/port/user.service.interface'
-import { DirectoryService } from '../application/service/user.service'
+import { UserRepository } from '../infrastructure/repository/user.repository'
+import { UsersController } from '../ui/controllers/users.controller'
+import { IUserService } from '../application/port/user.service.interface'
+import { UserService } from 'application/service/user.service'
 import { SubscribeEventBusTask } from '../background/task/subscribe.event.bus.task'
 import { RpcServerEventBusTask } from '../background/task/rpc.server.event.bus.task'
 import { FileController } from '../ui/controllers/file.controller'
-import { FileRepository } from '../infrastructure/repository/admin.repository'
-import { IFileRepository } from '../application/port/admin.repository.interface'
-import { FileService } from '../application/service/file.service'
-import { IFileService } from '../application/port/admin.service.interface'
+import { FileService } from '../application/service/admin.service'
 import { Client } from 'application/domain/model/client'
 import { Admin } from 'application/domain/model/admin'
 import { AdminEntity } from 'infrastructure/database/entity/admin.entity'
@@ -87,19 +84,14 @@ class IoC {
         this._container
             .bind<UserController>(Identifier.USER_CONTROLLER)
             .to(UsersController).inSingletonScope()
-        this._container
-            .bind<FileController>(Identifier.FILE_CONTROLLER)
-            .to(FileController).inSingletonScope()
+            começar no controller do admin
 
-        // Service
+        // Services
         this._container
-            .bind<IDirectoryService>(Identifier.DIRECTORY_SERVICE)
-            .to(DirectoryService).inSingletonScope()
-        this._container
-            .bind<IFileService>(Identifier.FILE_SERVICE)
-            .to(FileService).inSingletonScope()
-
-        // Repository Ok
+            .bind<IUserService>(Identifier.USER_SERVICE)
+            .to(UserService).inSingletonScope()
+ 
+        // Repositories Ok
         this._container
             .bind<IIntegrationEventRepository>(Identifier.INTEGRATION_EVENT_REPOSITORY)
             .to(IntegrationEventRepository).inSingletonScope()
@@ -122,9 +114,6 @@ class IoC {
         // Models Ok
         this._container.bind(Identifier.INTEGRATION_EVENT_REPO_MODEL).toConstantValue(IntegrationEventRepoModel)
         this._container.bind(Identifier.USER_REPO_MODEL).toConstantValue(UserRepoModel)
-        
-
-        // Service
 
         // Mappers Ok
         this._container
@@ -171,7 +160,7 @@ class IoC {
             .bind<IBackgroundTask>(Identifier.RPC_SERVER_EVENT_BUS_TASK)
             .to(RpcServerEventBusTask).inRequestScope()
 
-        // Log
+        // Logs
         this._container.bind<ILogger>(Identifier.LOGGER).to(CustomLogger).inSingletonScope()
     }
 }

@@ -10,6 +10,9 @@ import { User } from 'application/domain/model/user'
 export interface IUserRepository extends IRepository<User> {
     findByIdAndType(userId: string, userType: string): Promise<User | undefined>
 
+    findById(userId: string): Promise<User | undefined>
+
+
     /**
      * Checks if an user already has a registration.
      * The unique attributes are cpf and email.
