@@ -24,7 +24,7 @@ export class AdminService implements IAdminService {
     public async add(admin: Admin): Promise<Admin | undefined> {
         try {
             CreateAdminValidator.validate(admin)
-            //const passwordWithoutCrypt: string = admin.password!
+            // const passwordWithoutCrypt: string = admin.password!
 
             const adminExists = await this._userRepo.checkExists(admin)
             if (adminExists) throw new ConflictException(Strings.USER.ALREADY_REGISTERED)

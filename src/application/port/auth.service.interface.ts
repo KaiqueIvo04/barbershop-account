@@ -1,4 +1,4 @@
-import { Credentials } from "application/domain/model/credentials"
+import { Credentials } from 'application/domain/model/credentials'
 
 /**
  * Auth service interface.

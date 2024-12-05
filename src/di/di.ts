@@ -29,10 +29,10 @@ import { UserRepository } from '../infrastructure/repository/user.repository'
 import { UsersController } from '../ui/controllers/users.controller'
 import { IUserService } from '../application/port/user.service.interface'
 import { UserService } from 'application/service/user.service'
+import { IAdminService } from 'application/port/admin.service.interface'
+import { AdminService } from 'application/service/admin.service'
 import { SubscribeEventBusTask } from '../background/task/subscribe.event.bus.task'
 import { RpcServerEventBusTask } from '../background/task/rpc.server.event.bus.task'
-import { FileController } from '../ui/controllers/file.controller'
-import { FileService } from '../application/service/admin.service'
 import { Client } from 'application/domain/model/client'
 import { Admin } from 'application/domain/model/admin'
 import { AdminEntity } from 'infrastructure/database/entity/admin.entity'
@@ -49,6 +49,7 @@ import { IGatewayRepository } from 'application/port/gateway.repository.interfac
 import { GatewayRepository } from 'infrastructure/repository/gateway.repository'
 import { IAuthRepository } from 'application/port/auth.repository.interface'
 import { AuthRepository } from 'infrastructure/repository/auth.repository'
+import { AdminController } from 'ui/controllers/admin.controller'
 
 class IoC {
     private readonly _container: Container
@@ -82,15 +83,20 @@ class IoC {
 
         // Controllers
         this._container
-            .bind<UserController>(Identifier.USER_CONTROLLER)
+            .bind<UsersController>(Identifier.USERS_CONTROLLER)
             .to(UsersController).inSingletonScope()
-            começar no controller do admin
+        this._container
+            .bind<AdminController>(Identifier.ADMIN_CONTROLLER)
+            .to(AdminController).inSingletonScope()
 
         // Services
         this._container
             .bind<IUserService>(Identifier.USER_SERVICE)
             .to(UserService).inSingletonScope()
- 
+        this._container
+            .bind<IAdminService>(Identifier.ADMIN_SERVICE)
+            .to(AdminService).inSingletonScope()
+
         // Repositories Ok
         this._container
             .bind<IIntegrationEventRepository>(Identifier.INTEGRATION_EVENT_REPOSITORY)

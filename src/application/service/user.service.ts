@@ -16,7 +16,8 @@ import { Strings } from '../../utils/strings'
 export class UserService implements IUserService {
     constructor(
         @inject(Identifier.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
-        //@inject(Identifier.INTEGRATION_EVENT_REPOSITORY) private readonly _integrationEventRepository: IIntegrationEventRepository,
+        // @inject(Identifier.INTEGRATION_EVENT_REPOSITORY) private readonly
+        // _integrationEventRepository: IIntegrationEventRepository,
     ) {
     }
 

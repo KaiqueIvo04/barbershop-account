@@ -35,43 +35,43 @@ export class UsersController {
         }
     }
 
-    @httpPost('/checkcpf')
-    public async checkCpf(@request() req: Request, @response() res: Response): Promise<Response> {
-        try {
-            const result: any | undefined = await this._userService.checkCpf(req.body.cpf)
+    // @httpPost('/checkcpf')
+    // public async checkCpf(@request() req: Request, @response() res: Response): Promise<Response> {
+    //     try {
+    //         const result: any | undefined = await this._userService.checkCpf(req.body.cpf)
 
-            return res.status(HttpStatus.OK).send(result)
-        } catch (err: any) {
-            const handlerError = ApiExceptionManager.build(err)
-            return res.status(handlerError.code)
-                .send(handlerError.toJSON())
-        }
-    }
+    //         return res.status(HttpStatus.OK).send(result)
+    //     } catch (err: any) {
+    //         const handlerError = ApiExceptionManager.build(err)
+    //         return res.status(handlerError.code)
+    //             .send(handlerError.toJSON())
+    //     }
+    // }
 
-    @httpPut('/:user_id/password')
-    public async resetPassword(@request() req: Request, @response() res: Response): Promise<Response> {
-        try {
-            const result: User | undefined = await this._userService.resetPassword(req.params.user_id, req.body.password)
+    // @httpPut('/:user_id/password')
+    // public async resetPassword(@request() req: Request, @response() res: Response): Promise<Response> {
+    //     try {
+    //         const result: User | undefined = await this._userService.resetPassword(req.params.user_id, req.body.password)
 
-            return res.status(HttpStatus.OK).send(this.toJSONView(result))
-        } catch (err: any) {
-            const handlerError = ApiExceptionManager.build(err)
-            return res.status(handlerError.code)
-                .send(handlerError.toJSON())
-        }
-    }
+    //         return res.status(HttpStatus.OK).send(this.toJSONView(result))
+    //     } catch (err: any) {
+    //         const handlerError = ApiExceptionManager.build(err)
+    //         return res.status(handlerError.code)
+    //             .send(handlerError.toJSON())
+    //     }
+    // }
 
-    @httpPut('/:user_id/active')
-    public async updateUserActive(@request() req: Request, @response() res: Response): Promise<Response> {
-        try {
-            const result: User | undefined = await this._userService.updateActive(req.params.user_id, req.body.active)
-            return res.status(HttpStatus.OK).send(this.toJSONView(result))
-        } catch (err: any) {
-            const handlerError = ApiExceptionManager.build(err)
-            return res.status(handlerError.code)
-                .send(handlerError.toJSON())
-        }
-    }
+    // @httpPut('/:user_id/active')
+    // public async updateUserActive(@request() req: Request, @response() res: Response): Promise<Response> {
+    //     try {
+    //         const result: User | undefined = await this._userService.updateActive(req.params.user_id, req.body.active)
+    //         return res.status(HttpStatus.OK).send(this.toJSONView(result))
+    //     } catch (err: any) {
+    //         const handlerError = ApiExceptionManager.build(err)
+    //         return res.status(handlerError.code)
+    //             .send(handlerError.toJSON())
+    //     }
+    // }
 
     private toJSONView(user: User | Array<User> | undefined): object {
         if (user instanceof Array) return user.map(item => item.toJSON())

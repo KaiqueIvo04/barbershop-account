@@ -32,7 +32,7 @@ export class ClientRepository extends BaseRepository<Client, ClientEntity> imple
 
     public async checkExists(client: Client): Promise<boolean> {
         const query: Query = new Query().fromJSON({ filters: { _id: { $ne: client.id } } })
-        //const check_cpf = (process.env.CHECK_CPF === 'true') ? true : Default.CHECK_CPF
+        // const check_cpf = (process.env.CHECK_CPF === 'true') ? true : Default.CHECK_CPF
 
         if (client.email) {
             const user_email = client.email.toLowerCase()

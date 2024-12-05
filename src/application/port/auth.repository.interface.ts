@@ -1,5 +1,5 @@
-import { User } from "application/domain/model/user"
-import { Credentials } from "application/domain/model/credentials"
+import { User } from 'application/domain/model/user'
+import { Credentials } from 'application/domain/model/credentials'
 
 /**
  * Interface of the auth repository.

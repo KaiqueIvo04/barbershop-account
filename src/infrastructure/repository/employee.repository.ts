@@ -32,7 +32,7 @@ export class EmployeeRepository extends BaseRepository<Employee, EmployeeEntity>
 
     public async checkExists(Employee: Employee): Promise<boolean> {
         const query: Query = new Query().fromJSON({ filters: { _id: { $ne: Employee.id } } })
-        //const check_cpf = (process.env.CHECK_CPF === 'true') ? true : Default.CHECK_CPF
+        // const check_cpf = (process.env.CHECK_CPF === 'true') ? true : Default.CHECK_CPF
 
         if (Employee.email) {
             const user_email = Employee.email.toLowerCase()
@@ -98,3 +98,4 @@ export class EmployeeRepository extends BaseRepository<Employee, EmployeeEntity>
         })
     }
 }
+

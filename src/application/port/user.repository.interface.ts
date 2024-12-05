@@ -34,7 +34,7 @@ export interface IUserRepository extends IRepository<User> {
      * @return {Promise<User | undefined>}
      * @throws {ValidationException | RepositoryException}
      */
-    //changePassword(userEmail: string, oldPassword: string, newPassword: string): Promise<User | undefined>
+    // changePassword(userEmail: string, oldPassword: string, newPassword: string): Promise<User | undefined>
 
     /**
      * Resets the user's password.
@@ -46,7 +46,7 @@ export interface IUserRepository extends IRepository<User> {
      * @return {Promise<User | undefined>}
      * @throws {ValidationException | RepositoryException}
      */
-    //resetPassword(userId: string, userEmail: string, newPassword: string, token: string): Promise<User | undefined>
+    // resetPassword(userId: string, userEmail: string, newPassword: string, token: string): Promise<User | undefined>
 
     /**
      * Resets the user's password.
@@ -56,7 +56,7 @@ export interface IUserRepository extends IRepository<User> {
      * @return {Promise<User | undefined>}
      * @throws {NotFoundException | RepositoryException}
      */
-    //resetUserPassword(userId: string, newPassword: string): Promise<User | undefined>
+    // resetUserPassword(userId: string, newPassword: string): Promise<User | undefined>
 
     /**
      * Encrypts the user's password.
@@ -80,5 +80,5 @@ export interface IUserRepository extends IRepository<User> {
      * @param cpf CPF that will be verified
      * @return Returns the user's name, if it is registered in the system
      */
-    //checkCpf(cpf: string): Promise<undefined>
+    // checkCpf(cpf: string): Promise<undefined>
 }
