@@ -25,6 +25,10 @@ export abstract class Default {
     // RabbitMQ
     public static readonly RABBITMQ_URI: string = 'amqp://guest:guest@127.0.0.1:5672'
 
+    // ADMIN USER DEFAULT
+    public static readonly ADMIN_EMAIL: string = 'admin@barbershop.com'
+    public static readonly ADMIN_PASSWORD: string = 'admin*123'
+
     // Log
     public static readonly LOG_DIR: string = 'logs'
 

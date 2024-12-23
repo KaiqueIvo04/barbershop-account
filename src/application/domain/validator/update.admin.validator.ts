@@ -1,4 +1,4 @@
-//import { ValidationException } from '../exception/validation.exception'
+// import { ValidationException } from '../exception/validation.exception'
 import { UpdateUserValidator } from './update.user.validator'
 // import { Strings } from '../../../utils/strings'
 // import { Admin } from '../model/admin'

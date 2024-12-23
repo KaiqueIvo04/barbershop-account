@@ -125,7 +125,7 @@ export class App {
     private setupSwaggerUI(): void {
         const options = {
             customCss: '.swagger-ui .topbar { display: none }',
-            customfavIcon: Default.LOGO_URI,
+            // customfavIcon: Default.LOGO_URI,
             customSiteTitle: `API Reference | ${Strings.APP.TITLE}`
         }
         this.express.use(

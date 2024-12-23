@@ -1,37 +1,36 @@
-import { UsersScopes } from "../utils/user.scopes";
-import { UserType } from "../utils/user.types";
-import { JsonUtils } from "../utils/json.utils";
-import { User } from "./user";
+import { UsersScopes } from '../utils/user.scopes'
+import { UserType } from '../utils/user.types'
+import { JsonUtils } from '../utils/json.utils'
+import { User } from './user'
 
 export class Employee extends User {
-    private _role?: string | undefined;
-    private _avaliable?: boolean | undefined;
-    private _responsible_admin_id?: string | undefined;
+    private _role?: string | undefined
+    private _avaliable?: boolean | undefined
+    private _responsible_admin_id?: string | undefined
 
     public get role(): string | undefined {
-        return this._role;
+        return this._role
     }
 
     public set role(value: string | undefined) {
-        this._role = value;
+        this._role = value
     }
 
     public get avaliable(): boolean | undefined {
-        return this._avaliable;
+        return this._avaliable
     }
 
     public set avaliable(value: boolean | undefined) {
-        this._avaliable = value;
+        this._avaliable = value
     }
 
     public get responsible_admin_id(): string | undefined {
-        return this._responsible_admin_id;
+        return this._responsible_admin_id
     }
 
     public set responsible_admin_id(value: string | undefined) {
-        this._responsible_admin_id = value;
+        this._responsible_admin_id = value
     }
-    
     constructor() {
         super()
         super.type = UserType.EMPLOYEE

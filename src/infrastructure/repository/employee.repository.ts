@@ -30,15 +30,15 @@ export class EmployeeRepository extends BaseRepository<Employee, EmployeeEntity>
         return super.create(item)
     }
 
-    public async checkExists(Employee: Employee): Promise<boolean> {
-        const query: Query = new Query().fromJSON({ filters: { _id: { $ne: Employee.id } } })
+    public async checkExists(employee: Employee): Promise<boolean> {
+        const query: Query = new Query().fromJSON({ filters: { _id: { $ne: employee.id } } })
         // const check_cpf = (process.env.CHECK_CPF === 'true') ? true : Default.CHECK_CPF
 
-        if (Employee.email) {
-            const user_email = Employee.email.toLowerCase()
+        if (employee.email) {
+            const user_email = employee.email.toLowerCase()
             query.addFilter({ email: user_email })
-        } else if (Employee.email) {
-            const user_email = Employee.email.toLowerCase()
+        } else if (employee.email) {
+            const user_email = employee.email.toLowerCase()
             query.addFilter({ email: user_email })
         }
 
@@ -62,7 +62,7 @@ export class EmployeeRepository extends BaseRepository<Employee, EmployeeEntity>
                 .then((result: Array<Employee> | undefined) => {
                     if (!result?.length) resolve(!result)
                     if (result && result.length > 0) resolve(!!result)
-                    else if (result && result[0].email === Employee.email) resolve(!!result)
+                    else if (result && result[0].email === employee.email) resolve(!!result)
                     resolve(!result)
                 })
                 .catch(err => reject(super.mongoDBErrorListener(err)))

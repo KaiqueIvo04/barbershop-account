@@ -60,8 +60,8 @@ const userSchema = new Mongoose.Schema(
         }
     })
 
-//const secretKey = process.env.ENCRYPT_SECRET_KEY
-//const encryptFields = ['cpf']
+// const secretKey = process.env.ENCRYPT_SECRET_KEY
+// const encryptFields = ['cpf']
 
 function saltGenerator() {
     return process.env.SALT_GENERATOR_VALUE

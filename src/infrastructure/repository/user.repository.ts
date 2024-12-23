@@ -4,7 +4,7 @@ import { inject, injectable } from 'inversify'
 import { Identifier } from '../../di/identifiers'
 import { Query } from './query/query'
 import { IQuery } from 'application/port/query.interface'
-//import { Default } from 'utils/default'
+// import { Default } from 'utils/default'
 import { IEntityMapper } from '../port/entity.mapper.interface'
 import { User } from 'application/domain/model/user'
 import { UserEntity } from 'infrastructure/database/entity/user.entity'
@@ -31,7 +31,7 @@ export class UserRepository extends BaseRepository<User, UserEntity> implements 
         return super.findOne(query)
     }
 
-     /**
+     /*
      * Checks if an user already has a registration.
      * The unique attributes are cpf and email.
      *
@@ -81,7 +81,7 @@ export class UserRepository extends BaseRepository<User, UserEntity> implements 
         })
     }
 
-     /**
+     /*
      * Changes the user's password.
      *
      * @param userEmail

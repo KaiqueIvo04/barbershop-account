@@ -1,7 +1,7 @@
-import { UsersScopes } from "../utils/user.scopes";
-import { UserType } from "../utils/user.types";
-import { JsonUtils } from "../utils/json.utils";
-import { User } from "./user";
+import { UsersScopes } from '../utils/user.scopes'
+import { UserType } from '../utils/user.types'
+import { JsonUtils } from '../utils/json.utils'
+import { User } from './user'
 
 export class Client extends User {
     constructor() {
