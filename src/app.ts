@@ -5,9 +5,8 @@ import bodyParser from 'body-parser'
 import HttpStatus from 'http-status-codes'
 import swaggerUi from 'swagger-ui-express'
 import qs from 'query-strings-parser'
-import cors from 'cors'
+// import cors from 'cors'
 import express, { Application, NextFunction, Request, Response } from 'express'
-import fileUpload from 'express-fileupload'
 import { inject, injectable } from 'inversify'
 import { InversifyExpressServer } from 'inversify-express-utils'
 import { ApiException } from './ui/exception/api.exception'
@@ -87,19 +86,18 @@ export class App {
                     pagination: { page: 1, limit: 20 }
                 }
             }))
-            app.use(
-                cors({
-                    origin: '*',
-                    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-                    allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin', 'Accept'],
-                    exposedHeaders: ['Content-Type', 'x-ratelimit-limit', 'x-ratelimit-remaining', 'X-Total-Count', 'Zip-Name']
-                })
-            )
+            // app.use(
+            //     cors({
+            //         origin: '*',
+            //         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+            //         allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin', 'Accept'],
+            //         exposedHeaders: ['Content-Type', 'x-ratelimit-limit', 'x-ratelimit-remaining', 'X-Total-Count', 'Zip-Name']
+            //     })
+            // )
 
             // helps you secure your Express apps by setting various HTTP headers.
             // {@link https://www.npmjs.com/package/helmet}
             app.use(helmet())
-            app.use(fileUpload())
 
             // create application/json parser
             // {@link https://www.npmjs.com/package/body-parser}

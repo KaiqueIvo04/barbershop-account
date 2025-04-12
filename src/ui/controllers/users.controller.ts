@@ -1,6 +1,6 @@
 import HttpStatus from 'http-status-codes'
 import { inject } from 'inversify'
-import { controller, httpGet, httpPost, httpPut, request, response } from 'inversify-express-utils'
+import { controller, httpGet, request, response } from 'inversify-express-utils'
 import { Request, Response } from 'express'
 import { Identifier } from '../../di/identifiers'
 import { IUserService } from '../../application/port/user.service.interface'

@@ -35,9 +35,9 @@ string_mask         = utf8only
 countryName                    = BR
 stateOrProvinceName            = PB
 localityName                   = Campina Grande
-organizationName               = SMPC
-organizationalUnitName         = SMPC
-commonName                     = SMPC CA
+organizationName               = regNUTES
+organizationalUnitName         = regNUTES
+commonName                     = regNUTES CA
 
 ####################################################################
 [ ca_extensions ]
@@ -90,7 +90,7 @@ EOF
 openssl req -x509 \
   -config "$DIR/openssl.cnf" \
   -nodes -days 3650 \
-  -subj "/O=SSM,CN=SSM CA" \
+  -subj "/O=regNUTES,CN=regNUTES CA" \
   -keyout "$DIR/ca.key" \
   -out "$DIR/ca.pem" 2>/dev/null
 
@@ -122,7 +122,7 @@ generateCerts() {
   openssl req \
     -new -nodes \
     -key "$DIR/$4_key.pem" \
-    -subj "/O=$ORG/CN=SSM" \
+    -subj "/O=$ORG/CN=regNUTES" \
     -out "$DIR/$4.csr" 2>/dev/null
 
   # Sign the CSR with our CA. This will generate a new certificate that is signed
@@ -138,10 +138,15 @@ generateCerts() {
 
 # Certificates for service
 COUNT=1
-SERVICE="data-cross"
+SERVICE="barbershop-account"
 echo "$COUNT - Generating certificates for the \"${SERVICE^^}\" Service..."
 generateCerts "server" "$SERVICE" "localhost" "server" "$DIR"  # Server
 COUNT=$((COUNT + 1))
 
+# Create JWT certs
+echo "$COUNT - Generating JWT certificates for the \"${SERVICE^^}\" Service..."
+ssh-keygen -t rsa -P "" -b 2048 -m PEM -f "$DIR/$service/jwt.key" > /dev/null
+ssh-keygen -e -m PEM -f "$DIR/$service/jwt.key" >"$DIR/$service/jwt.key.pub"
+
 # (Optional) Remove unused files at the moment
-rm -rf $DIR/ca.pem $DIR/ca.key $DIR/*.srl $DIR/*.csr $DIR/*.cnf
+rm -rf $DIR/ca.key $DIR/*.srl $DIR/*.csr $DIR/*.cnf

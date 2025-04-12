@@ -8,18 +8,17 @@ require('dotenv').config()
 interface IUserModel extends Mongoose.Document {
 }
 
-const summaryInfoSpecies: any = {
-    total: Number,
-    male: Number,
-    female: Number,
-    neutered: Number,
-    not_neutered: Number,
-    female_neutered: Number,
-    female_not_neutered: Number,
-    male_neutered: Number,
-    male_not_neutered: Number
-
-}
+// const summaryInfoSpecies: any = {
+//     total: Number,
+//     male: Number,
+//     female: Number,
+//     neutered: Number,
+//     not_neutered: Number,
+//     female_neutered: Number,
+//     female_not_neutered: Number,
+//     male_neutered: Number,
+//     male_not_neutered: Number
+// }
 
 const userSchema = new Mongoose.Schema(
     {
@@ -63,9 +62,9 @@ const userSchema = new Mongoose.Schema(
 // const secretKey = process.env.ENCRYPT_SECRET_KEY
 // const encryptFields = ['cpf']
 
-function saltGenerator() {
-    return process.env.SALT_GENERATOR_VALUE
-}
+// function saltGenerator() {
+//     return process.env.SALT_GENERATOR_VALUE
+// }
 
 // userSchema.plugin(MongooseFieldEncryption.fieldEncryption, {
 //     fields: encryptFields,
@@ -136,13 +135,13 @@ function saltGenerator() {
 // })
 
 // For mongoose 4/5 compatibility.
-function nextErr(err) {
-    if (err) throw err
-}
+// function nextErr(err) {
+//     if (err) throw err
+// }
 
-function getNext(next) {
-    if (typeof next !== 'function') return nextErr
-    return next
-}
+// function getNext(next) {
+//     if (typeof next !== 'function') return nextErr
+//     return next
+// }
 
 export const UserRepoModel = Mongoose.model<IUserModel>('User', userSchema)

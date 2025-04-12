@@ -6,7 +6,6 @@ import { ConnectionMongodb } from '../infrastructure/database/connection.mongodb
 import { IConnectionDB } from '../infrastructure/port/connection.db.interface'
 import { IConnectionFactory } from '../infrastructure/port/connection.factory.interface'
 import { BackgroundService } from '../background/background.service'
-
 import { App } from '../app'
 import { CustomLogger, ILogger } from '../utils/custom.logger'
 import { IBackgroundTask } from '../application/port/background.task.interface'
@@ -28,28 +27,28 @@ import { IUserRepository } from 'application/port/user.repository.interface'
 import { UserRepository } from '../infrastructure/repository/user.repository'
 import { UsersController } from '../ui/controllers/users.controller'
 import { IUserService } from '../application/port/user.service.interface'
-import { UserService } from 'application/service/user.service'
-import { IAdminService } from 'application/port/admin.service.interface'
-import { AdminService } from 'application/service/admin.service'
-import { SubscribeEventBusTask } from '../background/task/register.default.admin.task.'
+import { UserService } from '../application/service/user.service'
+import { IAdminService } from '../application/port/admin.service.interface'
+import { AdminService } from '../application/service/admin.service'
+import { RegisterDefaultAdminTask } from '../background/task/register.default.admin.task'
 import { RpcServerEventBusTask } from '../background/task/rpc.server.event.bus.task'
-import { Client } from 'application/domain/model/client'
-import { Admin } from 'application/domain/model/admin'
-import { AdminEntity } from 'infrastructure/database/entity/admin.entity'
-import { ClientEntity } from 'infrastructure/database/entity/client.entity'
-import { Employee } from 'application/domain/model/employee'
-import { EmployeeEntity } from 'infrastructure/database/entity/employee.entity'
-import { ClientEntityMapper } from 'infrastructure/database/entity/mapper/client.entity.mapper'
-import { EmployeeEntityMapper } from 'infrastructure/database/entity/mapper/employee.entity.mapper'
-import { IClientRepository } from 'application/port/client.repository.interface'
-import { ClientRepository } from 'infrastructure/repository/client.repository'
-import { IEmployeeRepository } from 'application/port/employee.repository.interface'
-import { EmployeeRepository } from 'infrastructure/repository/employee.repository'
-import { IGatewayRepository } from 'application/port/gateway.repository.interface'
-import { GatewayRepository } from 'infrastructure/repository/gateway.repository'
-import { IAuthRepository } from 'application/port/auth.repository.interface'
-import { AuthRepository } from 'infrastructure/repository/auth.repository'
-import { AdminController } from 'ui/controllers/admin.controller'
+import { Client } from '../application/domain/model/client'
+import { Admin } from '../application/domain/model/admin'
+import { AdminEntity } from '../infrastructure/database/entity/admin.entity'
+import { ClientEntity } from '../infrastructure/database/entity/client.entity'
+import { Employee } from '../application/domain/model/employee'
+import { EmployeeEntity } from '../infrastructure/database/entity/employee.entity'
+import { ClientEntityMapper } from '../infrastructure/database/entity/mapper/client.entity.mapper'
+import { EmployeeEntityMapper } from '../infrastructure/database/entity/mapper/employee.entity.mapper'
+import { IClientRepository } from '../application/port/client.repository.interface'
+import { ClientRepository } from '../infrastructure/repository/client.repository'
+import { IEmployeeRepository } from '../application/port/employee.repository.interface'
+import { EmployeeRepository } from '../infrastructure/repository/employee.repository'
+import { IGatewayRepository } from '../application/port/gateway.repository.interface'
+import { GatewayRepository } from '../infrastructure/repository/gateway.repository'
+import { IAuthRepository } from '../application/port/auth.repository.interface'
+import { AuthRepository } from '../infrastructure/repository/auth.repository'
+import { AdminController } from '../ui/controllers/admin.controller'
 
 class IoC {
     private readonly _container: Container
@@ -160,8 +159,8 @@ class IoC {
             .bind<IBackgroundTask>(Identifier.PUBLISH_EVENT_BUS_TASK)
             .to(PublishEventBusTask).inRequestScope()
         this._container
-            .bind<IBackgroundTask>(Identifier.SUBSCRIBE_EVENT_BUS_TASK)
-            .to(SubscribeEventBusTask).inRequestScope()
+            .bind<IBackgroundTask>(Identifier.REGISTER_DEFAULT_ADMIN_TASK)
+            .to(RegisterDefaultAdminTask).inRequestScope()
         this._container
             .bind<IBackgroundTask>(Identifier.RPC_SERVER_EVENT_BUS_TASK)
             .to(RpcServerEventBusTask).inRequestScope()

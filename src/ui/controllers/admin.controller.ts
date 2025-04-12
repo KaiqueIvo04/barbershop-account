@@ -1,7 +1,7 @@
 import { inject } from 'inversify'
 import { Identifier } from '../../di/identifiers'
 import { IAdminService } from 'application/port/admin.service.interface'
-import { controller, httpDelete, httpGet, httpPost, request, response } from 'inversify-express-utils'
+import { controller, httpGet, httpPost, request, response } from 'inversify-express-utils'
 import { Request, Response } from 'express'
 import HttpStatus from 'http-status-codes'
 import { ApiExceptionManager } from '../exception/api.exception.manager'
@@ -14,15 +14,15 @@ import { UserType } from 'application/domain/utils/user.types'
 @controller('/v1/admins')
 export class AdminController {
 
-    private static handlerError(res: Response, err: any) {
-        const handlerError = ApiExceptionManager.build(err)
-        return res.status(handlerError.code)
-            .send(handlerError.toJSON())
-    }
+    // private static handlerError(res: Response, err: any) {
+    //     const handlerError = ApiExceptionManager.build(err)
+    //     return res.status(handlerError.code)
+    //         .send(handlerError.toJSON())
+    // }
 
     constructor(
         @inject(Identifier.ADMIN_SERVICE) private readonly _adminService: IAdminService,
-        @inject(Identifier.LOGGER) private readonly _logger: ILogger
+        @inject(Identifier.LOGGER) readonly _logger: ILogger
     ) {
     }
 
