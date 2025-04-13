@@ -83,7 +83,7 @@ export class App {
             app.use(qs({
                 use_page: true,
                 default: {
-                    pagination: { page: 1, limit: 20 }
+                    pagination: { page: 1, limit: 100 }
                 }
             }))
             // app.use(

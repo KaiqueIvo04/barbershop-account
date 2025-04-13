@@ -20,35 +20,38 @@ import { IntegrationEventRepoModel } from '../infrastructure/database/schema/int
 import { PublishEventBusTask } from '../background/task/publish.event.bus.task'
 import { UserRepoModel } from '../infrastructure/database/schema/user.schema'
 import { User } from '../application/domain/model/user'
-import { UserEntity } from '../infrastructure/database/entity/user.entity'
-import { UserEntityMapper } from '../infrastructure/database/entity/mapper/user.entity.mapper'
+import { UserEntity } from '../infrastructure/entity/user.entity'
+import { UserEntityMapper } from '../infrastructure/entity/mapper/user.entity.mapper'
 import { IEntityMapper } from '../infrastructure/port/entity.mapper.interface'
 import { IUserRepository } from 'application/port/user.repository.interface'
 import { UserRepository } from '../infrastructure/repository/user.repository'
 import { UsersController } from '../ui/controllers/users.controller'
 import { IUserService } from '../application/port/user.service.interface'
 import { UserService } from '../application/service/user.service'
-import { IAdminService } from '../application/port/admin.service.interface'
-import { AdminService } from '../application/service/admin.service'
+// import { IAdminService } from '../application/port/admin.service.interface'
+// import { AdminService } from '../application/service/admin.service'
 import { RegisterDefaultAdminTask } from '../background/task/register.default.admin.task'
 import { RpcServerEventBusTask } from '../background/task/rpc.server.event.bus.task'
-import { Client } from '../application/domain/model/client'
+import { IAdminRepository } from '../application/port/admin.repository.interface'
+import { AdminRepository } from '../infrastructure/repository/admin.repository'
+// import { Client } from '../application/domain/model/client'
 import { Admin } from '../application/domain/model/admin'
-import { AdminEntity } from '../infrastructure/database/entity/admin.entity'
-import { ClientEntity } from '../infrastructure/database/entity/client.entity'
-import { Employee } from '../application/domain/model/employee'
-import { EmployeeEntity } from '../infrastructure/database/entity/employee.entity'
-import { ClientEntityMapper } from '../infrastructure/database/entity/mapper/client.entity.mapper'
-import { EmployeeEntityMapper } from '../infrastructure/database/entity/mapper/employee.entity.mapper'
-import { IClientRepository } from '../application/port/client.repository.interface'
-import { ClientRepository } from '../infrastructure/repository/client.repository'
-import { IEmployeeRepository } from '../application/port/employee.repository.interface'
-import { EmployeeRepository } from '../infrastructure/repository/employee.repository'
-import { IGatewayRepository } from '../application/port/gateway.repository.interface'
-import { GatewayRepository } from '../infrastructure/repository/gateway.repository'
-import { IAuthRepository } from '../application/port/auth.repository.interface'
-import { AuthRepository } from '../infrastructure/repository/auth.repository'
-import { AdminController } from '../ui/controllers/admin.controller'
+import { AdminEntity } from '../infrastructure/entity/admin.entity'
+import { AdminEntityMapper } from '../infrastructure/entity/mapper/admin.entity.mapper'
+// import { ClientEntity } from '../infrastructure/database/entity/client.entity'
+// import { Employee } from '../application/domain/model/employee'
+// import { EmployeeEntity } from '../infrastructure/database/entity/employee.entity'
+// import { ClientEntityMapper } from '../infrastructure/database/entity/mapper/client.entity.mapper'
+// import { EmployeeEntityMapper } from '../infrastructure/database/entity/mapper/employee.entity.mapper'
+// import { IClientRepository } from '../application/port/client.repository.interface'
+// import { ClientRepository } from '../infrastructure/repository/client.repository'
+// import { IEmployeeRepository } from '../application/port/employee.repository.interface'
+// import { EmployeeRepository } from '../infrastructure/repository/employee.repository'
+// import { IGatewayRepository } from '../application/port/gateway.repository.interface'
+// import { GatewayRepository } from '../infrastructure/repository/gateway.repository'
+// import { IAuthRepository } from '../application/port/auth.repository.interface'
+// import { AuthRepository } from '../infrastructure/repository/auth.repository'
+// import { AdminController } from '../ui/controllers/admin.controller'
 
 class IoC {
     private readonly _container: Container
@@ -78,63 +81,66 @@ class IoC {
      * @return void
      */
     private initDependencies(): void {
-        this._container.bind(Identifier.APP).to(App).inSingletonScope()
+         this._container.bind(Identifier.APP).to(App).inSingletonScope()
 
-        // Controllers
-        this._container
-            .bind<UsersController>(Identifier.USERS_CONTROLLER)
-            .to(UsersController).inSingletonScope()
-        this._container
-            .bind<AdminController>(Identifier.ADMIN_CONTROLLER)
-            .to(AdminController).inSingletonScope()
+    //     // Controllers
+         this._container
+             .bind<UsersController>(Identifier.USERS_CONTROLLER)
+             .to(UsersController).inSingletonScope()
+    //     this._container
+    //         .bind<AdminController>(Identifier.ADMIN_CONTROLLER)
+    //         .to(AdminController).inSingletonScope()
 
-        // Services
-        this._container
-            .bind<IUserService>(Identifier.USER_SERVICE)
-            .to(UserService).inSingletonScope()
-        this._container
-            .bind<IAdminService>(Identifier.ADMIN_SERVICE)
-            .to(AdminService).inSingletonScope()
+    //     // Services
+         this._container
+             .bind<IUserService>(Identifier.USER_SERVICE)
+             .to(UserService).inSingletonScope()
+    //     this._container
+    //         .bind<IAdminService>(Identifier.ADMIN_SERVICE)
+    //         .to(AdminService).inSingletonScope()
 
-        // Repositories Ok
+    //     // Repositories Ok
         this._container
             .bind<IIntegrationEventRepository>(Identifier.INTEGRATION_EVENT_REPOSITORY)
             .to(IntegrationEventRepository).inSingletonScope()
-        this._container
-            .bind<IGatewayRepository>(Identifier.GATEWAY_REPOSITORY)
-            .to(GatewayRepository).inSingletonScope()
-        this._container
-            .bind<IAuthRepository>(Identifier.AUTH_REPOSITORY)
-            .to(AuthRepository).inSingletonScope()
+    //     this._container
+    //         .bind<IGatewayRepository>(Identifier.GATEWAY_REPOSITORY)
+    //         .to(GatewayRepository).inSingletonScope()
+    //     this._container
+    //         .bind<IAuthRepository>(Identifier.AUTH_REPOSITORY)
+    //         .to(AuthRepository).inSingletonScope()
         this._container
             .bind<IUserRepository>(Identifier.USER_REPOSITORY)
             .to(UserRepository).inSingletonScope()
         this._container
-            .bind<IClientRepository>(Identifier.CLIENT_REPOSITORY)
-            .to(ClientRepository).inSingletonScope()
-        this._container
-            .bind<IEmployeeRepository>(Identifier.EMPLOYEE_REPOSITORY)
-            .to(EmployeeRepository).inSingletonScope()
+            .bind<IAdminRepository>(Identifier.ADMIN_REPOSITORY)
+            .to(AdminRepository).inSingletonScope()
+    //     this._container
+    //         .bind<IClientRepository>(Identifier.CLIENT_REPOSITORY)
+    //         .to(ClientRepository).inSingletonScope()
+    //     this._container
+    //         .bind<IEmployeeRepository>(Identifier.EMPLOYEE_REPOSITORY)
+    //         .to(EmployeeRepository).inSingletonScope()
 
-        // Models Ok
+    //     // Models Ok
         this._container.bind(Identifier.INTEGRATION_EVENT_REPO_MODEL).toConstantValue(IntegrationEventRepoModel)
         this._container.bind(Identifier.USER_REPO_MODEL).toConstantValue(UserRepoModel)
 
-        // Mappers Ok
+    //     // Mappers Ok
         this._container
             .bind<IEntityMapper<User, UserEntity>>(Identifier.USER_ENTITY_MAPPER)
             .to(UserEntityMapper).inSingletonScope()
         this._container
             .bind<IEntityMapper<Admin, AdminEntity>>(Identifier.ADMIN_ENTITY_MAPPER)
-            .to(UserEntityMapper).inSingletonScope()
-        this._container
-            .bind<IEntityMapper<Client, ClientEntity>>(Identifier.CLIENT_ENTITY_MAPPER)
-            .to(ClientEntityMapper).inSingletonScope()
-        this._container
-            .bind<IEntityMapper<Employee, EmployeeEntity>>(Identifier.EMPLOYEE_ENTITY_MAPPER)
-            .to(EmployeeEntityMapper).inSingletonScope()
+            .to(AdminEntityMapper).inSingletonScope()
+    //     this._container
+    //         .bind<IEntityMapper<Client, ClientEntity>>(Identifier.CLIENT_ENTITY_MAPPER)
+    //         .to(ClientEntityMapper).inSingletonScope()
+    //     this._container
+    //         .bind<IEntityMapper<Employee, EmployeeEntity>>(Identifier.EMPLOYEE_ENTITY_MAPPER)
+    //         .to(EmployeeEntityMapper).inSingletonScope()
 
-        // Background Services
+    //     // Background Services
         this._container
             .bind<IConnectionFactory>(Identifier.MONGODB_CONNECTION_FACTORY)
             .to(ConnectionFactoryMongodb).inSingletonScope()
@@ -154,7 +160,7 @@ class IoC {
             .bind<IEventBus>(Identifier.RABBITMQ_EVENT_BUS)
             .to(EventBusRabbitMQ).inSingletonScope()
 
-        // Tasks
+    //     // Tasks
         this._container
             .bind<IBackgroundTask>(Identifier.PUBLISH_EVENT_BUS_TASK)
             .to(PublishEventBusTask).inRequestScope()

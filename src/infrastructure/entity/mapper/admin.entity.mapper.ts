@@ -1,17 +1,17 @@
 import { injectable } from 'inversify'
-import { User } from 'application/domain/model/user'
-import { UserEntity } from '../user.entity'
-import { IEntityMapper } from 'infrastructure/port/entity.mapper.interface'
+import { Admin } from '../../../application/domain/model/admin'
+import { AdminEntity } from '../admin.entity'
+import { IEntityMapper } from '../../port/entity.mapper.interface'
 
 @injectable()
-export class UserEntityMapper implements IEntityMapper<User, UserEntity> {
+export class AdminEntityMapper implements IEntityMapper<Admin, AdminEntity> {
     public transform(item: any): any {
-        if (item instanceof User) return this.modelToModelEntity(item)
+        if (item instanceof Admin) return this.modelToModelEntity(item)
         return this.jsonToModel(item) // json
     }
 
     /**
-     * Convert {User} for {UserEntity}.
+     * Convert {Admin} for {AdminEntity}.
      *
      * @see Before setting the value, it is important to verify that the type is valid.
      * Therefore, you do not run the risk that in an UPDATE / PATCH action type,
@@ -21,8 +21,8 @@ export class UserEntityMapper implements IEntityMapper<User, UserEntity> {
      * Therefore, if a null value is passed at update time, an exception is thrown.
      * @param item
      */
-    public modelToModelEntity(item: User): UserEntity {
-        const result: UserEntity = new UserEntity()
+    public modelToModelEntity(item: Admin): AdminEntity {
+        const result: AdminEntity = new AdminEntity()
 
         if (item.id !== undefined) result.id = item.id
         if (item.name !== undefined) result.name = item.name
@@ -39,14 +39,14 @@ export class UserEntityMapper implements IEntityMapper<User, UserEntity> {
     }
 
     /**
-     * Convert JSON for {User}.
+     * Convert JSON for {Admin}.
      *
      * @see Each attribute must be mapped only if it contains an assigned value,
      * because at some point the attribute accessed may not exist.
      * @param json
      */
-    public jsonToModel(json: any): User {
-        const result: User = new User()
+    public jsonToModel(json: any): Admin {
+        const result: Admin = new Admin()
         if (!json) return result
 
         if (json.id !== undefined) result.id = json.id

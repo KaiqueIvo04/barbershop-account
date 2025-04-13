@@ -1,12 +1,12 @@
 import { inject, injectable } from 'inversify'
 import { BaseRepository } from './base/base.repository'
-import { Identifier } from 'di/identifiers'
+import { Identifier } from '../../di/identifiers'
 import { IEntityMapper } from '../port/entity.mapper.interface'
-import { IUserRepository } from 'application/port/user.repository.interface'
-import { Admin } from 'application/domain/model/admin'
-import { AdminEntity } from 'infrastructure/database/entity/admin.entity'
-import { IAdminRepository } from 'application/port/admin.repository.interface'
-import { UserType } from 'application/domain/utils/user.types'
+import { IUserRepository } from '../../application/port/user.repository.interface'
+import { Admin } from '../../application/domain/model/admin'
+import { AdminEntity } from '../../infrastructure/entity/admin.entity'
+import { IAdminRepository } from '../../application/port/admin.repository.interface'
+import { UserType } from '../../application/domain/utils/user.types'
 
 /**
  * Implementation of the Admin repository.

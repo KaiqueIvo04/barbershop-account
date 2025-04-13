@@ -5,7 +5,7 @@ import { Query } from './query/query'
 import { IEntityMapper } from '../port/entity.mapper.interface'
 import { IUserRepository } from 'application/port/user.repository.interface'
 import { Employee } from 'application/domain/model/employee'
-import { EmployeeEntity } from 'infrastructure/database/entity/employee.entity'
+import { EmployeeEntity } from 'infrastructure/entity/employee.entity'
 import { IEmployeeRepository } from 'application/port/employee.repository.interface'
 import { UserType } from 'application/domain/utils/user.types'
 
