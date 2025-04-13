@@ -17,7 +17,7 @@ import { App } from './src/app'
  *      DB_USER=root
  *      DB_PASS=mypass
  *
- *  The fastest way is to create a copy of the .env file.
+ *  The fastest way is to create a copy of the .env.example file.
  */
 require('dotenv').config()
 
@@ -70,7 +70,7 @@ function initListener(): void {
         try {
             await backgroundServices.stopServices()
         } catch (err: any) {
-            logger.error(`There was an error stopping all background services. ${err?.message}`)
+            logger.error(`There was an error stopping all background services. ${err.message}`)
         } finally {
             logger.debug('Background services successfully closed...')
         }
