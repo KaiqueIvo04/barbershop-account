@@ -28,8 +28,8 @@ import { UserRepository } from '../infrastructure/repository/user.repository'
 import { UsersController } from '../ui/controllers/users.controller'
 import { IUserService } from '../application/port/user.service.interface'
 import { UserService } from '../application/service/user.service'
-// import { IAdminService } from '../application/port/admin.service.interface'
-// import { AdminService } from '../application/service/admin.service'
+import { IAdminService } from '../application/port/admin.service.interface'
+import { AdminService } from '../application/service/admin.service'
 import { RegisterDefaultAdminTask } from '../background/task/register.default.admin.task'
 import { RpcServerEventBusTask } from '../background/task/rpc.server.event.bus.task'
 import { IAdminRepository } from '../application/port/admin.repository.interface'
@@ -51,7 +51,7 @@ import { AdminEntityMapper } from '../infrastructure/entity/mapper/admin.entity.
 // import { GatewayRepository } from '../infrastructure/repository/gateway.repository'
 // import { IAuthRepository } from '../application/port/auth.repository.interface'
 // import { AuthRepository } from '../infrastructure/repository/auth.repository'
-// import { AdminController } from '../ui/controllers/admin.controller'
+import { AdminController } from '../ui/controllers/admin.controller'
 
 class IoC {
     private readonly _container: Container
@@ -87,17 +87,17 @@ class IoC {
          this._container
              .bind<UsersController>(Identifier.USERS_CONTROLLER)
              .to(UsersController).inSingletonScope()
-    //     this._container
-    //         .bind<AdminController>(Identifier.ADMIN_CONTROLLER)
-    //         .to(AdminController).inSingletonScope()
+        this._container
+            .bind<AdminController>(Identifier.ADMIN_CONTROLLER)
+            .to(AdminController).inSingletonScope()
 
     //     // Services
          this._container
              .bind<IUserService>(Identifier.USER_SERVICE)
              .to(UserService).inSingletonScope()
-    //     this._container
-    //         .bind<IAdminService>(Identifier.ADMIN_SERVICE)
-    //         .to(AdminService).inSingletonScope()
+        this._container
+            .bind<IAdminService>(Identifier.ADMIN_SERVICE)
+            .to(AdminService).inSingletonScope()
 
     //     // Repositories Ok
         this._container

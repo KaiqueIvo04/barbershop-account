@@ -1,0 +1,62 @@
+# docker-compose.yml
+version: "3.8"
+services:
+  app:
+    container_name: barbershop-account
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    restart: always
+    networks:
+      - barbershop-network
+    depends_on:
+      - mongo
+      - rabbitmq
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/barbershop-account
+      - RABBITMQ_URI=amqp://rabbitmq:5672
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+  
+  mongo:
+    image: mongo
+    container_name: barbershop-mongo
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - barbershop-mongo-data:/data/db
+    networks:
+      - barbershop-network
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: barbershop-rabbitmq
+    restart: always
+    ports:
+      - 15672:15672 # Management UI
+      - 5672:5672 # AMQP Protocol
+    networks:
+      - barbershop-network
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+
+volumes:
+  barbershop-mongo-data:
+    name: barbershop-mongo
+
+networks:
+  barbershop-network:
+    name: barbershop-network
+    driver: bridge

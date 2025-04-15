@@ -1,15 +1,15 @@
 import { inject } from 'inversify'
-import { Identifier } from '../../di/identifiers'
-import { IAdminService } from 'application/port/admin.service.interface'
 import { controller, httpGet, httpPost, request, response } from 'inversify-express-utils'
 import { Request, Response } from 'express'
 import HttpStatus from 'http-status-codes'
+import { Identifier } from '../../di/identifiers'
+import { IAdminService } from '../../application/port/admin.service.interface'
 import { ApiExceptionManager } from '../exception/api.exception.manager'
 import { Query } from '../../infrastructure/repository/query/query'
-import { Admin } from 'application/domain/model/admin'
-import { ILogger } from 'utils/custom.logger'
-import { IQuery } from 'application/port/query.interface'
-import { UserType } from 'application/domain/utils/user.types'
+import { Admin } from '../../application/domain/model/admin'
+import { ILogger } from '../../utils/custom.logger'
+import { IQuery } from '../../application/port/query.interface'
+import { UserType } from '../../application/domain/utils/user.types'
 
 @controller('/v1/admins')
 export class AdminController {
@@ -31,7 +31,6 @@ export class AdminController {
         try {
             const newAdmin: Admin = new Admin().fromJSON(req.body)
             newAdmin.id = undefined
-
             const result: Admin | undefined = await this._adminService.add(newAdmin)
 
             return res.status(HttpStatus.CREATED).send(this.toJSONView(result))
@@ -48,7 +47,6 @@ export class AdminController {
         try {
             const query: IQuery = new Query().fromJSON(req.query)
             query.addFilter({ type: UserType.ADMIN })
-
             const result: Array<Admin> = await this._adminService.getAll(query)
 
             const count: number = await this._adminService.count(query)

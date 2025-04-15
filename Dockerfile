@@ -1,15 +1,10 @@
-FROM node:14
-
-# Create app directory
-RUN mkdir -p /usr/src/dc
-WORKDIR /usr/src/dc
-
-# Install app dependencies
-COPY package.json package-lock.json /usr/src/dc/
-RUN npm install
+FROM registry.access.redhat.com/ubi8/nodejs-14:1
 
 # Copy app source
-COPY . /usr/src/dc
+COPY . .
+
+# Install app dependencies
+RUN npm install
 
 # Build app
 RUN npm run build
