@@ -4,6 +4,8 @@ import { ApiException } from './api.exception'
 import { ValidationException } from '../../application/domain/exception/validation.exception'
 import { ConflictException } from '../../application/domain/exception/conflict.exception'
 import { RepositoryException } from '../../application/domain/exception/repository.exception'
+import { AuthenticationException } from '../../application/domain/exception/authentication.exception'
+import { NotFoundException } from '../../application/domain/exception/not.found.exception'
 
 /**
  * Treats the exception types of the application and converts
@@ -25,6 +27,10 @@ export abstract class ApiExceptionManager {
             return new ApiException(HttpStatus.CONFLICT, err.message, err.description)
         } else if (err instanceof RepositoryException) {
             return new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, err.message, err.description)
+        } else if (err instanceof AuthenticationException) {
+            return new ApiException(HttpStatus.UNAUTHORIZED, err.message, err.description)
+        } else if (err instanceof NotFoundException) {
+            return new ApiException(HttpStatus.NOT_FOUND, err.message, err.description)
         }
         return new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, err.message, err.description)
     }

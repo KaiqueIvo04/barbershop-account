@@ -47,12 +47,7 @@ export class UserRepository extends BaseRepository<User, UserEntity> implements 
             // Formatted user email to lower case
             const user_email = user.email.toLowerCase()
             query.addFilter({ email: user_email })
-        }else if (user.email) {
-            // Formatted user email to lower case
-            const user_email = user.email.toLowerCase()
-            query.addFilter({ email: user_email })
         }
-
         // Validate CPF, validation will only occur if the execution environment is the production environment.
         // if (check_cpf && user.cpf) {
         //     const result = await this.checkCpf(user.cpf)
@@ -64,7 +59,6 @@ export class UserRepository extends BaseRepository<User, UserEntity> implements 
                 .then((result: Array<User> | undefined) => {
                     if (!result?.length) resolve(!result)
                     if (result && result.length > 0) resolve(!!result)
-                    if (result && result[0].type !== 'patient') resolve(!!result)
                     else if (result && result[0].email === user.email) resolve(!!result)
                     resolve(!result)
                 })

@@ -33,6 +33,18 @@ export abstract class Strings {
         PARAM_ID_NOT_VALID_FORMAT: 'Parameter {admin_id} is not in valid format!'
     }
 
+    public static readonly CLIENT: any = {
+        NOT_FOUND: 'Client not found!',
+        NOT_FOUND_DESCRIPTION: 'Client not found or already removed. A new operation for the same resource is required.',
+        PARAM_ID_NOT_VALID_FORMAT: 'Parameter {client_id} is not in valid format!'
+    }
+
+    public static readonly EMPOYEE: any = {
+        NOT_FOUND: 'Employee not found!',
+        NOT_FOUND_DESCRIPTION: 'Employee not found or already removed. A new operation for the same resource is required.',
+        PARAM_ID_NOT_VALID_FORMAT: 'Parameter {employee_id} is not in valid format!'
+    }
+
     public static readonly ERROR_MESSAGE: any = {
         REQUEST_BODY_INVALID: 'Unable to process request body!',
         REQUEST_BODY_INVALID_DESC: 'Please verify that the JSON provided in the request body has a valid format and try again.',

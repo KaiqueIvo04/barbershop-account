@@ -3,18 +3,18 @@ import { controller, httpGet, httpPatch, httpPost, request, response } from 'inv
 import { Request, Response } from 'express'
 import HttpStatus from 'http-status-codes'
 import { Identifier } from '../../di/identifiers'
-import { IAdminService } from '../../application/port/admin.service.interface'
 import { ApiExceptionManager } from '../exception/api.exception.manager'
 import { Query } from '../../infrastructure/repository/query/query'
-import { Admin } from '../../application/domain/model/admin'
+import { Client } from '../../application/domain/model/client'
 import { ILogger } from '../../utils/custom.logger'
 import { IQuery } from '../../application/port/query.interface'
 import { UserType } from '../../application/domain/utils/user.types'
 import { NotFoundException } from '../../application/domain/exception/not.found.exception'
 import { Strings } from '../../utils/strings'
+import { IClientService } from '../../application/port/client.service.interface'
 
-@controller('/v1/admins')
-export class AdminController {
+@controller('/v1/clients')
+export class ClientController {
 
     // private static handlerError(res: Response, err: any) {
     //     const handlerError = ApiExceptionManager.build(err)
@@ -23,17 +23,17 @@ export class AdminController {
     // }
 
     constructor(
-        @inject(Identifier.ADMIN_SERVICE) private readonly _adminService: IAdminService,
+        @inject(Identifier.CLIENT_SERVICE) private readonly _clientService: IClientService,
         @inject(Identifier.LOGGER) readonly _logger: ILogger
     ) {
     }
 
     @httpPost('/')
-    public async saveAdmin(@request() req: Request, @response() res: Response): Promise<Response> {
+    public async saveClient(@request() req: Request, @response() res: Response): Promise<Response> {
         try {
-            const newAdmin: Admin = new Admin().fromJSON(req.body)
-            newAdmin.id = undefined
-            const result: Admin | undefined = await this._adminService.add(newAdmin)
+            const newClient: Client = new Client().fromJSON(req.body)
+            newClient.id = undefined
+            const result: Client | undefined = await this._clientService.add(newClient)
 
             return res.status(HttpStatus.CREATED).send(this.toJSONView(result))
 
@@ -45,13 +45,13 @@ export class AdminController {
     }
 
     @httpGet('/')
-    public async getAllAdmins(@request() req: Request, @response() res: Response): Promise<Response> {
+    public async getAllClients(@request() req: Request, @response() res: Response): Promise<Response> {
         try {
             const query: IQuery = new Query().fromJSON(req.query)
-            query.addFilter({ type: UserType.ADMIN })
-            const result: Array<Admin> = await this._adminService.getAll(query)
+            query.addFilter({ type: UserType.CLIENT })
+            const result: Array<Client> = await this._clientService.getAll(query)
 
-            const count: number = await this._adminService.count(query)
+            const count: number = await this._clientService.count(query)
             res.setHeader('X-Total-Count', count)
 
             return res.status(HttpStatus.OK).send(this.toJSONView(result))
@@ -62,15 +62,15 @@ export class AdminController {
         }
     }
 
-    @httpGet('/:admin_id')
-    public async getAdminById(@request() req: Request, @response() res: Response): Promise<Response> {
+    @httpGet('/:client_id')
+    public async getClientById(@request() req: Request, @response() res: Response): Promise<Response> {
         try {
             const query: IQuery = new Query().fromJSON(req.query)
-            query.addFilter({ _id: req.params.admin_id, type: UserType.ADMIN })
+            query.addFilter({ _id: req.params.client_id, type: UserType.CLIENT})
 
-            const result: Admin | undefined = await this._adminService.getById(req.params.admin_id, query)
+            const result: Client | undefined = await this._clientService.getById(req.params.client_id, query)
 
-            if (!result) throw new NotFoundException(Strings.ADMIN.NOT_FOUND, Strings.ADMIN.NOT_FOUND_DESCRIPTION)
+            if (!result) throw new NotFoundException(Strings.CLIENT.NOT_FOUND, Strings.CLIENT.NOT_FOUND_DESCRIPTION)
 
             return res.status(HttpStatus.OK).send(this.toJSONView(result))
         } catch (err: any) {
@@ -80,15 +80,15 @@ export class AdminController {
         }
     }
 
-    @httpPatch('/:admin_id')
-    public async updateAdminById(@request() req: Request, @response() res: Response): Promise<Response> {
+    @httpPatch('/:client_id')
+    public async updateClientById(@request() req: Request, @response() res: Response): Promise<Response> {
         try {
-            const updateAdmin: Admin = new Admin().fromJSON(req.body)
-            updateAdmin.id = req.params.admin_id
+            const updateClient: Client = new Client().fromJSON(req.body)
+            updateClient.id = req.params.client_id
 
-            const result: Admin | undefined = await this._adminService.update(updateAdmin)
+            const result: Client | undefined = await this._clientService.update(updateClient)
 
-            if (!result) throw new NotFoundException(Strings.ADMIN.NOT_FOUND, Strings.ADMIN.NOT_FOUND_DESCRIPTION)
+            if (!result) throw new NotFoundException(Strings.CLIENT.NOT_FOUND, Strings.CLIENT.NOT_FOUND_DESCRIPTION)
             return res.status(HttpStatus.OK).send(this.toJSONView(result))
         } catch (err: any) {
             const handlerError = ApiExceptionManager.build(err)
@@ -97,8 +97,8 @@ export class AdminController {
         }
     }
 
-    private toJSONView(admin: Admin | Array<Admin> | undefined): object {
-        if (admin instanceof Array) return admin.map(item => item.toJSON())
-        return admin?.toJSON()
+    private toJSONView(client: Client | Array<Client> | undefined): object {
+        if (client instanceof Array) return client.map(item => item.toJSON())
+        return client?.toJSON()
     }
 }

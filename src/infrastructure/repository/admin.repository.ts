@@ -32,9 +32,9 @@ export class AdminRepository extends BaseRepository<Admin, AdminEntity> implemen
     public update(item: Admin): Promise<Admin | undefined> {
         const itemUp: any = this.mapper.transform(item)
 
-        let set: any = { $set: itemUp }
+        const set: any = { $set: itemUp }
 
-        if (itemUp.cpf) set = { $set: { ...itemUp, __enc_cpf: false } }
+        // if (itemUp.cpf) set = { $set: { ...itemUp, __enc_cpf: false } }
         return new Promise<Admin | undefined>((resolve, reject) => {
             this.Model.findOneAndUpdate({ _id: itemUp.id, type: UserType.ADMIN }, set, { new: true })
                 .exec()

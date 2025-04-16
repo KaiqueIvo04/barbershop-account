@@ -17,7 +17,7 @@ export class AdminService implements IAdminService {
 
     constructor(
         @inject(Identifier.ADMIN_REPOSITORY) private readonly _adminRepository: IAdminRepository,
-        @inject(Identifier.USER_REPOSITORY) private readonly _userRepo: IUserRepository,
+        @inject(Identifier.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
     ) {
     }
 
@@ -26,7 +26,7 @@ export class AdminService implements IAdminService {
             CreateAdminValidator.validate(admin)
             // const passwordWithoutCrypt: string = admin.password!
 
-            const adminExists = await this._userRepo.checkExists(admin)
+            const adminExists = await this._userRepository.checkExists(admin)
             if (adminExists) throw new ConflictException(Strings.USER.ALREADY_REGISTERED)
 
             const result: Admin | undefined = await this._adminRepository.create(admin)
@@ -58,8 +58,8 @@ export class AdminService implements IAdminService {
             ObjectIdValidator.validate(id, Strings.ADMIN.PARAM_ID_NOT_VALID_FORMAT)
 
             return this._adminRepository.findOne(query)
-        } catch (error) {
-            Promise.reject(error)
+        } catch (err) {
+            Promise.reject(err)
         }
     }
 
@@ -70,14 +70,14 @@ export class AdminService implements IAdminService {
                 ObjectIdValidator.validate(admin.id, Strings.ADMIN.PARAM_ID_NOT_VALID_FORMAT)
 
             // 2. Check if user is registered
-            const result = await this._userRepo.findByIdAndType(admin.id!, UserType.ADMIN)
+            const result = await this._userRepository.findByIdAndType(admin.id!, UserType.ADMIN)
             if (!result) return Promise.resolve(undefined)
 
             UpdateAdminValidator.validate(admin)
 
             // 4. Check conficts
             if (admin.email) {
-                const adminExists: boolean = await this._userRepo.checkExists(admin)
+                const adminExists: boolean = await this._userRepository.checkExists(admin)
                 if (adminExists) throw new ConflictException(Strings.USER.ALREADY_REGISTERED)
             }
 
