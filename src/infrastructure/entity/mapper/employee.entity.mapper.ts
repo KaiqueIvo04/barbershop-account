@@ -1,7 +1,7 @@
 import { injectable } from 'inversify'
-import { Employee } from 'application/domain/model/employee'
+import { Employee } from '../../../application/domain/model/employee'
 import { EmployeeEntity } from '../employee.entity'
-import { IEntityMapper } from 'infrastructure/port/entity.mapper.interface'
+import { IEntityMapper } from '../../port/entity.mapper.interface'
 
 @injectable()
 export class EmployeeEntityMapper implements IEntityMapper<Employee, EmployeeEntity> {

@@ -1,13 +1,13 @@
 import { inject, injectable } from 'inversify'
 import { BaseRepository } from './base/base.repository'
-import { Identifier } from 'di/identifiers'
-import { Query } from './query/query'
+import { Identifier } from '../../di/identifiers'
+// import { Query } from './query/query'
 import { IEntityMapper } from '../port/entity.mapper.interface'
-import { IUserRepository } from 'application/port/user.repository.interface'
-import { Employee } from 'application/domain/model/employee'
-import { EmployeeEntity } from 'infrastructure/entity/employee.entity'
-import { IEmployeeRepository } from 'application/port/employee.repository.interface'
-import { UserType } from 'application/domain/utils/user.types'
+import { IUserRepository } from '../../application/port/user.repository.interface'
+import { Employee } from '../../application/domain/model/employee'
+import { EmployeeEntity } from '../../infrastructure/entity/employee.entity'
+import { IEmployeeRepository } from '../../application/port/employee.repository.interface'
+import { UserType } from '../../application/domain/utils/user.types'
 
 /**
  * Implementation of the Employee repository.
@@ -30,62 +30,48 @@ export class EmployeeRepository extends BaseRepository<Employee, EmployeeEntity>
         return super.create(item)
     }
 
-    public async checkExists(employee: Employee): Promise<boolean> {
-        const query: Query = new Query().fromJSON({ filters: { _id: { $ne: employee.id } } })
-        // const check_cpf = (process.env.CHECK_CPF === 'true') ? true : Default.CHECK_CPF
+    // public async checkExists(employee: Employee): Promise<boolean> {
+    //     const query: Query = new Query().fromJSON({ filters: { _id: { $ne: employee.id } } })
+    //     // const check_cpf = (process.env.CHECK_CPF === 'true') ? true : Default.CHECK_CPF
 
-        if (employee.email) {
-            const user_email = employee.email.toLowerCase()
-            query.addFilter({ email: user_email })
-        } else if (employee.email) {
-            const user_email = employee.email.toLowerCase()
-            query.addFilter({ email: user_email })
-        }
+    //     if (employee.email) {
+    //         const user_email = employee.email.toLowerCase()
+    //         query.addFilter({ email: user_email })
+    //     }
 
-        // if (Employee.cnpj && Employee.email) {
-        //     const user_email = Employee.email.toLowerCase()
-        //     query.addFilter({ $or: [{ cpf: Employee.cnpj }, { email: user_email }] })
-        // } else if (Employee.cnpj) {
-        //     query.addFilter({ cnpj: Employee.cnpj })
-        // } else if (Employee.email) {
-        //     const user_email = Employee.email.toLowerCase()
-        //     query.addFilter({ email: user_email })
-        // }
+    //     // if (Employee.cnpj && Employee.email) {
+    //     //     const user_email = Employee.email.toLowerCase()
+    //     //     query.addFilter({ $or: [{ cpf: Employee.cnpj }, { email: user_email }] })
+    //     // } else if (Employee.cnpj) {
+    //     //     query.addFilter({ cnpj: Employee.cnpj })
+    //     // } else if (Employee.email) {
+    //     //     const user_email = Employee.email.toLowerCase()
+    //     //     query.addFilter({ email: user_email })
+    //     // }
 
-        // if (check_cpf && Employee.cpf) {
-        //     const result = await this._userRepo.checkCpf(Employee.cpf)
-        //     if (!result) Promise.reject(result)
-        // }
+    //     // if (check_cpf && Employee.cpf) {
+    //     //     const result = await this._userRepo.checkCpf(Employee.cpf)
+    //     //     if (!result) Promise.reject(result)
+    //     // }
 
-        return new Promise<boolean>((resolve, reject) => {
-            super.find(query)
-                .then((result: Array<Employee> | undefined) => {
-                    if (!result?.length) resolve(!result)
-                    if (result && result.length > 0) resolve(!!result)
-                    else if (result && result[0].email === employee.email) resolve(!!result)
-                    resolve(!result)
-                })
-                .catch(err => reject(super.mongoDBErrorListener(err)))
-        })
-    }
+    //     return new Promise<boolean>((resolve, reject) => {
+    //         super.find(query)
+    //             .then((result: Array<Employee> | undefined) => {
+    //                 if (!result?.length) resolve(!result)
+    //                 if (result && result.length > 0) resolve(!!result)
+    //                 else if (result && result[0].email === employee.email) resolve(!!result)
+    //                 resolve(!result)
+    //             })
+    //             .catch(err => reject(super.mongoDBErrorListener(err)))
+    //     })
+    // }
 
     public update(item: Employee): Promise<Employee | undefined> {
         const itemUp: any = this.mapper.transform(item)
-        let set: any = { $set: itemUp }
 
-        if (itemUp.cpf) {
-            set = {
-                $set: { ...itemUp, __enc_cpf: false },
-                $unset: { cnpj: '' }
-            }
-        }
+        const set: any = { $set: itemUp }
 
-        if (itemUp.cnpj) {
-            set = {
-                $set: { ...itemUp, __enc_cnpj: false },
-                $unset: { cpf: '' }
-            }
-        }
+        // if (itemUp.cpf) set = { $set: { ...itemUp, __enc_cpf: false } }
 
         return new Promise<Employee | undefined>((resolve, reject) => {
             this.Model.findOneAndUpdate({ _id: itemUp.id, type: UserType.EMPLOYEE }, set, { new: true })

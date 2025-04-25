@@ -1,5 +1,5 @@
 import { IRepository } from './repository.interface'
-import { Employee } from 'application/domain/model/employee'
+import { Employee } from '../../application/domain/model/employee'
 
 /**
  * Interface of the Employee repository.

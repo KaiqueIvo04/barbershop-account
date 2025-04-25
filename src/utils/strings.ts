@@ -39,10 +39,12 @@ export abstract class Strings {
         PARAM_ID_NOT_VALID_FORMAT: 'Parameter {client_id} is not in valid format!'
     }
 
-    public static readonly EMPOYEE: any = {
+    public static readonly EMPLOYEE: any = {
         NOT_FOUND: 'Employee not found!',
         NOT_FOUND_DESCRIPTION: 'Employee not found or already removed. A new operation for the same resource is required.',
-        PARAM_ID_NOT_VALID_FORMAT: 'Parameter {employee_id} is not in valid format!'
+        PARAM_ID_NOT_VALID_FORMAT: 'Parameter {employee_id} is not in valid format!',
+        RESPONSIBLE_ADMIN_NOT_FOUND: 'Responsible admin not found!',
+        RESPONSIBLE_ADMIN_NOT_FOUND_DESCRIPTION: 'Responsible admin not found or already removed. A new operation for the same resource is required.',
     }
 
     public static readonly ERROR_MESSAGE: any = {
@@ -71,6 +73,7 @@ export abstract class Strings {
             INVALID_STRING: '{0} must be a string!',
             EMPTY_STRING: '{0} must have at least one character!',
             INVALID_NUMERIC_STRING: '{0} must only have numeric digits!',
+            INVALID_ALFABETIC_STRING: '{0} must only have alphabetic characters!',
             INVALID_ADDRESS_NUMBER: 'number must contains only letters, numbers and /.',
             INVALID_ZIP_CODE: 'zip_code must contains only 8 numbers.',
             INVALID_ZIP_CODE_NOT_FOUND: 'zip_code must be exists in VIA CEP endpoint.',

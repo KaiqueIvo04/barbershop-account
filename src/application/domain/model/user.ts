@@ -15,7 +15,7 @@ export class User extends Entity implements IJSONSerializable, IJSONDeserializab
     private _email?: string  // User email.
     private _password?: string  // Password for User authentication.
     private _last_login?: Date  // Date of the last login of the User on the platform in UTC, according to the ISO 8601 format.
-    private _type?: string  // Type of user. Can be Admin, Manager, Requester, Regulator or Operator.
+    private _type?: string  // Type of user..
     private _scopes!: Array<string>  // Scope that defines the types of access the user has.
     private _protected?: boolean  // To block (or not) remove an Admin user.
     private _password_reset_token?: string  // Temporary token of password reset.

@@ -39,14 +39,14 @@ import { Admin } from '../application/domain/model/admin'
 import { AdminEntity } from '../infrastructure/entity/admin.entity'
 import { AdminEntityMapper } from '../infrastructure/entity/mapper/admin.entity.mapper'
 import { ClientEntity } from '../infrastructure/entity/client.entity'
-// import { Employee } from '../application/domain/model/employee'
-// import { EmployeeEntity } from '../infrastructure/database/entity/employee.entity'
+import { Employee } from '../application/domain/model/employee'
+import { EmployeeEntity } from '../infrastructure/entity/employee.entity'
 import { ClientEntityMapper } from '../infrastructure/entity/mapper/client.entity.mapper'
-// import { EmployeeEntityMapper } from '../infrastructure/database/entity/mapper/employee.entity.mapper'
+import { EmployeeEntityMapper } from '../infrastructure/entity/mapper/employee.entity.mapper'
 import { IClientRepository } from '../application/port/client.repository.interface'
 import { ClientRepository } from '../infrastructure/repository/client.repository'
-// import { IEmployeeRepository } from '../application/port/employee.repository.interface'
-// import { EmployeeRepository } from '../infrastructure/repository/employee.repository'
+import { IEmployeeRepository } from '../application/port/employee.repository.interface'
+import { EmployeeRepository } from '../infrastructure/repository/employee.repository'
 // import { IGatewayRepository } from '../application/port/gateway.repository.interface'
 // import { GatewayRepository } from '../infrastructure/repository/gateway.repository'
 // import { IAuthRepository } from '../application/port/auth.repository.interface'
@@ -127,15 +127,15 @@ class IoC {
         this._container
             .bind<IClientRepository>(Identifier.CLIENT_REPOSITORY)
             .to(ClientRepository).inSingletonScope()
-    //     this._container
-    //         .bind<IEmployeeRepository>(Identifier.EMPLOYEE_REPOSITORY)
-    //         .to(EmployeeRepository).inSingletonScope()
+        this._container
+            .bind<IEmployeeRepository>(Identifier.EMPLOYEE_REPOSITORY)
+            .to(EmployeeRepository).inSingletonScope()
 
-    //     // Models Ok
+        // Models Ok
         this._container.bind(Identifier.INTEGRATION_EVENT_REPO_MODEL).toConstantValue(IntegrationEventRepoModel)
         this._container.bind(Identifier.USER_REPO_MODEL).toConstantValue(UserRepoModel)
 
-    //     // Mappers Ok
+        // Mappers Ok
         this._container
             .bind<IEntityMapper<User, UserEntity>>(Identifier.USER_ENTITY_MAPPER)
             .to(UserEntityMapper).inSingletonScope()
@@ -145,11 +145,11 @@ class IoC {
         this._container
             .bind<IEntityMapper<Client, ClientEntity>>(Identifier.CLIENT_ENTITY_MAPPER)
             .to(ClientEntityMapper).inSingletonScope()
-    //     this._container
-    //         .bind<IEntityMapper<Employee, EmployeeEntity>>(Identifier.EMPLOYEE_ENTITY_MAPPER)
-    //         .to(EmployeeEntityMapper).inSingletonScope()
+        this._container
+            .bind<IEntityMapper<Employee, EmployeeEntity>>(Identifier.EMPLOYEE_ENTITY_MAPPER)
+            .to(EmployeeEntityMapper).inSingletonScope()
 
-    //     // Background Services
+        // Background Services
         this._container
             .bind<IConnectionFactory>(Identifier.MONGODB_CONNECTION_FACTORY)
             .to(ConnectionFactoryMongodb).inSingletonScope()
@@ -169,7 +169,7 @@ class IoC {
             .bind<IEventBus>(Identifier.RABBITMQ_EVENT_BUS)
             .to(EventBusRabbitMQ).inSingletonScope()
 
-    //     // Tasks
+        // Tasks
         this._container
             .bind<IBackgroundTask>(Identifier.PUBLISH_EVENT_BUS_TASK)
             .to(PublishEventBusTask).inRequestScope()
