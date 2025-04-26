@@ -12,9 +12,6 @@ services:
     restart: always
     networks:
       - barbershop-network
-    depends_on:
-      - mongo
-      - rabbitmq
     environment:
       - MONGODB_URI=mongodb://mongo:27017/barbershop-account
       - RABBITMQ_URI=amqp://rabbitmq:5672

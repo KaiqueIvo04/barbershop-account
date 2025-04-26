@@ -64,8 +64,8 @@ export class ClientService implements IClientService {
 
             // 4. Check conficts
             if (client.email) {
-                const adminExists: boolean = await this._userRepository.checkExists(client)
-                if (adminExists) throw new ConflictException(Strings.USER.ALREADY_REGISTERED)
+                const clientExists: boolean = await this._userRepository.checkExists(client)
+                if (clientExists) throw new ConflictException(Strings.USER.ALREADY_REGISTERED)
             }
 
             // 5. Update user

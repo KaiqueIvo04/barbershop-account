@@ -11,7 +11,7 @@ import { ObjectIdValidator } from './object.id.validator'
 export class CreateEmployeeValidator {
     public static validate(employee: Employee): void | ValidationException{
         const fields: Array<string> = []
-        
+
         // Required fields
         if (employee.name === undefined) fields.push('name')
         else UserParamsValidator.validateName(employee.name)

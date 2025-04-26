@@ -50,7 +50,7 @@ export class Employee extends User {
         if (json.password !== undefined) this.password = json.password
         if (json.role !== undefined) this.role = json.role
         if (json.avaliable !== undefined) this.avaliable = json.avaliable
-        if (json.responsible_admin !== undefined) this.responsible_admin_id = json.responsible_admin
+        if (json.responsible_admin_id !== undefined) this.responsible_admin_id = json.responsible_admin_id
 
         return this
     }

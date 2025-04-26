@@ -55,6 +55,9 @@ import { AdminController } from '../ui/controllers/admin.controller'
 import { ClientController } from '../ui/controllers/client.controller'
 import { ClientService } from '../application/service/client.service'
 import { IClientService } from '../application/port/client.service.interface'
+import { EmployeeController } from '../ui/controllers/employee.controller'
+import { IEmployeeService } from '../application/port/employee.service.interface'
+import { EmployeeService } from '../application/service/employee.service'
 
 class IoC {
     private readonly _container: Container
@@ -96,6 +99,9 @@ class IoC {
         this._container
             .bind<ClientController>(Identifier.CLIENT_CONTROLLER)
             .to(ClientController).inSingletonScope()
+        this._container
+            .bind<EmployeeController>(Identifier.EMPLOYEE_CONTROLLER)
+            .to(EmployeeController).inSingletonScope()
 
         // Services
         this._container
@@ -107,6 +113,9 @@ class IoC {
         this._container
             .bind<IClientService>(Identifier.CLIENT_SERVICE)
             .to(ClientService).inSingletonScope()
+        this._container
+            .bind<IEmployeeService>(Identifier.EMPLOYEE_SERVICE)
+            .to(EmployeeService).inSingletonScope()
 
         // Repositories Ok
         this._container

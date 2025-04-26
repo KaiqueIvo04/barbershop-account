@@ -11,7 +11,7 @@ import { Strings } from '../../utils/strings'
 import { IQuery } from '../../application/port/query.interface'
 import { ObjectIdValidator } from '../../application/domain/validator/object.id.validator'
 import { UpdateEmployeeValidator } from '../../application/domain/validator/update.employee.validator'
-import { Admin } from '../../application/domain/model/admin'
+import { NotFoundException } from '../../application/domain/exception/not.found.exception'
 
 @injectable()
 export class EmployeeService implements IEmployeeService {
@@ -23,6 +23,7 @@ export class EmployeeService implements IEmployeeService {
 
     public async add(employee: Employee): Promise<Employee | undefined> {
         try {
+            console.log(employee)
             // 1. Check employee fields
             CreateEmployeeValidator.validate(employee)
 
@@ -31,13 +32,17 @@ export class EmployeeService implements IEmployeeService {
             if (employeeExists) throw new ConflictException(Strings.USER.ALREADY_REGISTERED)
 
             // 3. Check if responsible admin exists
-            const responsibleAdminExists: Admin | undefined = await this._userRepository.findByIdAndType(employee.responsible_admin_id!, UserType.ADMIN)
-            if (!responsibleAdminExists) throw new ConflictException(Strings.EMPLOYEE.RESPONSIBLE_ADMIN_NOT_FOUND, Strings.EMPLOYEE.RESPONSIBLE_ADMIN_NOT_FOUND_DESCRIPTION)
+            const responsibleAdminExists = await this._userRepository.findByIdAndType(
+                employee.responsible_admin_id!, UserType.ADMIN
+            )
+            if (!responsibleAdminExists) throw new NotFoundException(
+                Strings.EMPLOYEE.RESPONSIBLE_ADMIN_NOT_FOUND, Strings.EMPLOYEE.RESPONSIBLE_ADMIN_NOT_FOUND_DESCRIPTION
+            )
 
             // if OK Create employee
             return this._employeeRepository.create(employee)
         } catch (err) {
-            Promise.reject(err)
+            return Promise.reject(err)
         }
     }
 
@@ -47,7 +52,7 @@ export class EmployeeService implements IEmployeeService {
 
     public async getById(id: string, query: IQuery): Promise<Employee | undefined> {
         try {
-            ObjectIdValidator.validate(id, Strings.CLIENT.PARAM_ID_NOT_VALID_FORMAT)
+            ObjectIdValidator.validate(id, Strings.EMPLOYEE.PARAM_ID_NOT_VALID_FORMAT)
 
             return this._employeeRepository.findOne(query)
         } catch (err) {
@@ -59,19 +64,23 @@ export class EmployeeService implements IEmployeeService {
         try {
             // 1. Validate id parameter
             if (employee.id)
-                ObjectIdValidator.validate(employee.id, Strings.CLIENT.PARAM_ID_NOT_VALID_FORMAT)
+                ObjectIdValidator.validate(employee.id, Strings.EMPLOYEE.PARAM_ID_NOT_VALID_FORMAT)
 
             // 2. Check if user is registered
-            const result = await this._userRepository.findByIdAndType(employee.id!, UserType.CLIENT)
+            const result = await this._userRepository.findByIdAndType(employee.id!, UserType.EMPLOYEE)
             if (!result) return Promise.resolve(undefined)
 
             UpdateEmployeeValidator.validate(employee)
 
             // 4. Check conficts
             if (employee.email) {
-                const adminExists: boolean = await this._userRepository.checkExists(employee)
-                if (adminExists) throw new ConflictException(Strings.USER.ALREADY_REGISTERED)
+                const employeeExists: boolean = await this._userRepository.checkExists(employee)
+                if (employeeExists) throw new ConflictException(Strings.USER.ALREADY_REGISTERED)
             }
+
+            // 3.1 Preventing parameters from being updated
+            employee.avaliable = undefined
+            employee.responsible_admin_id = undefined
 
             // 5. Update user
             return this._employeeRepository.update(employee)
