@@ -13,7 +13,7 @@ export interface IAuthService {
      * @return {Promise<object>} Feedback message about the forgot password flow.
      * @throws {ValidationException | RepositoryException}
      */
-    forgotPassword(email: string): Promise<object>
+    // forgotPassword(email: string): Promise<object>
 
     /**
      * Change's the user's password.
@@ -37,5 +37,5 @@ export interface IAuthService {
      * @return {Promise<boolean>} True if the password has been updated and false otherwise.
      * @throws {ValidationException | RepositoryException}
      */
-    changePassword(email: string, oldPassword: string, newPassword: string, token: string): Promise<boolean>
+    // changePassword(email: string, oldPassword: string, newPassword: string, token: string): Promise<boolean>
 }
