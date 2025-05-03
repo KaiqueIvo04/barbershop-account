@@ -56,7 +56,8 @@ export class AuthService implements IAuthService {
     //         const result: User | undefined = await this._authRepository.forgotPassword(email)
     //         if (result) await this._publishEmailResetPasswordEvent(result)
     //         return Promise.resolve({
-    //             message: `If a matching account is found, an email has been sent to ${email} to allow you to reset your password.`
+    //             message: `If a matching account is found, an email has been sent
+    //                       to ${email} to allow you to reset your password.`
     //         })
     //     } catch (err) {
     //         return Promise.reject(err)
@@ -102,7 +103,9 @@ export class AuthService implements IAuthService {
     //         }
     //         // SCENARIO 02 - User does not remember his current password.
     //         ResetPasswordValidator.validate(userEmail, newPassword)
-    //         const resultReset = await this._userRepository.resetPassword(payload.iss.split('_')[0], userEmail, newPassword, token)
+    //         const resultReset = await this._userRepository.resetPassword(
+    //              payload.iss.split('_')[0], userEmail, newPassword, token
+    //         )
     //         if (resultReset) {
     //             await this._publishEmailUpdatePasswordEvent(resultReset)
     //         }

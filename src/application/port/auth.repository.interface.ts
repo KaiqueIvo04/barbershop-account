@@ -1,5 +1,5 @@
-import { User } from 'application/domain/model/user'
-import { Credentials } from 'application/domain/model/credentials'
+// import { User } from '../../application/domain/model/user'
+import { Credentials } from '../../application/domain/model/credentials'
 
 /**
  * Interface of the auth repository.
@@ -15,9 +15,9 @@ export interface IAuthRepository {
      * @return {Promise<User | undefined>}
      * @throws {ValidationException | RepositoryException}
      */
-    forgotPassword(email: string): Promise<User | undefined>
+    // forgotPassword(email: string): Promise<User | undefined>
 
     validateToken(token: string): Promise<boolean>
 
-    getTokenPayload(token: string): Promise<any>
+    // getTokenPayload(token: string): Promise<any>
 }

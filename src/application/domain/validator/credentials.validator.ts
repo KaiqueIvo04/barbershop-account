@@ -27,7 +27,7 @@ export class CredentialsValidator {
         // if (auth.cnpj) NumericStringValidator.validate(auth.cnpj, 'cnpj')
 
         if (!auth.password) fields.push('password')
-        else StringValidator.validate(auth.password, 'password')
+        else StringValidator.validate(auth.password, 'password', false, true)
 
         if (fields.length > 0) {
             throw new ValidationException(

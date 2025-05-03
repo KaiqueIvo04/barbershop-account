@@ -49,8 +49,8 @@ import { IEmployeeRepository } from '../application/port/employee.repository.int
 import { EmployeeRepository } from '../infrastructure/repository/employee.repository'
 // import { IGatewayRepository } from '../application/port/gateway.repository.interface'
 // import { GatewayRepository } from '../infrastructure/repository/gateway.repository'
-// import { IAuthRepository } from '../application/port/auth.repository.interface'
-// import { AuthRepository } from '../infrastructure/repository/auth.repository'
+import { IAuthRepository } from '../application/port/auth.repository.interface'
+import { AuthRepository } from '../infrastructure/repository/auth.repository'
 import { AdminController } from '../ui/controllers/admin.controller'
 import { ClientController } from '../ui/controllers/client.controller'
 import { ClientService } from '../application/service/client.service'
@@ -58,6 +58,9 @@ import { IClientService } from '../application/port/client.service.interface'
 import { EmployeeController } from '../ui/controllers/employee.controller'
 import { IEmployeeService } from '../application/port/employee.service.interface'
 import { EmployeeService } from '../application/service/employee.service'
+import { IAuthService } from '../application/port/auth.service.interface'
+import { AuthService } from '../application/service/auth.service'
+import { AuthController } from '../ui/controllers/auth.controller'
 
 class IoC {
     private readonly _container: Container
@@ -102,6 +105,9 @@ class IoC {
         this._container
             .bind<EmployeeController>(Identifier.EMPLOYEE_CONTROLLER)
             .to(EmployeeController).inSingletonScope()
+        this._container
+            .bind<AuthController>(Identifier.AUTH_CONTROLLER)
+            .to(AuthController).inSingletonScope()
 
         // Services
         this._container
@@ -116,6 +122,9 @@ class IoC {
         this._container
             .bind<IEmployeeService>(Identifier.EMPLOYEE_SERVICE)
             .to(EmployeeService).inSingletonScope()
+        this._container
+            .bind<IAuthService>(Identifier.AUTH_SERVICE)
+            .to(AuthService).inSingletonScope()
 
         // Repositories Ok
         this._container
@@ -139,6 +148,9 @@ class IoC {
         this._container
             .bind<IEmployeeRepository>(Identifier.EMPLOYEE_REPOSITORY)
             .to(EmployeeRepository).inSingletonScope()
+        this._container
+            .bind<IAuthRepository>(Identifier.AUTH_REPOSITORY)
+            .to(AuthRepository).inSingletonScope()
 
         // Models Ok
         this._container.bind(Identifier.INTEGRATION_EVENT_REPO_MODEL).toConstantValue(IntegrationEventRepoModel)

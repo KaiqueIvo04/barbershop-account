@@ -1,14 +1,14 @@
-import { inject } from "inversify";
-import { controller, httpPost, request, response } from "inversify-express-utils";
-import { Request, Response } from "express";
-import HttpStatus from "http-status-codes";
-import { Credentials } from "../../application/domain/model/credentials";
-import { Identifier } from "../../di/identifiers";
-import { ApiException } from "../../ui/exception/api.exception";
-import { ApiExceptionManager } from "../../ui/exception/api.exception.manager";
-import { IAuthService } from "../../application/port/auth.service.interface";
+import { inject } from 'inversify'
+import { controller, httpPost, request, response } from 'inversify-express-utils'
+import { Request, Response } from 'express'
+import HttpStatus from 'http-status-codes'
+import { Credentials } from '../../application/domain/model/credentials'
+import { Identifier } from '../../di/identifiers'
+import { ApiException } from '../../ui/exception/api.exception'
+import { ApiExceptionManager } from '../../ui/exception/api.exception.manager'
+import { IAuthService } from '../../application/port/auth.service.interface'
 
-@controller("/v1/auth")
+@controller('/v1/auth')
 export class AuthController {
     constructor(
         @inject(Identifier.AUTH_SERVICE) private readonly _authService: IAuthService
