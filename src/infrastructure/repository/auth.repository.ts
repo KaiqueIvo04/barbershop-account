@@ -13,6 +13,7 @@ import { ILogger } from '../../utils/custom.logger'
 import { IUserRepository } from '../../application/port/user.repository.interface'
 import { Credentials } from '../../application/domain/model/credentials'
 import { UsersScopes } from '../../application/domain/utils/user.scopes'
+import { Default } from '../../utils/default'
 /**
  * Implementation of the auth repository.
  *
@@ -102,7 +103,7 @@ export class AuthRepository implements IAuthRepository {
             const payload: object = {
                 sub: user.id,
                 sub_type: user.type,
-                iss: user.id,
+                iss: process.env.ISSUER || Default.ISSUER,
                 iat: Math.floor(Date.now() / 1000),
                 scope: UsersScopes.getUserScopes(user.type!).join(' ')
             }

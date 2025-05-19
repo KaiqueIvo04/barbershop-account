@@ -2,8 +2,8 @@ export abstract class UsersScopes {
 
   public static readonly ADMIN: Array<string> = [
     // Usuários
-    'us:c', 'us:r', 'us:ra', 'us:u', 'us:d',       // CRUD de usuários
-    'us:rp', 'us:ua', 'us:uat',                    // Reset de senha, ativar/desativar usuários, autorização
+    'ad:c', 'ad:r', 'ad:ra', 'ad:u', 'ad:d',       // CRUD de usuários
+    'ad:rp', 'ad:ua', 'ad:uat',                    // Reset de senha, ativar/desativar usuários, autorização
 
     // Funcionários
     'em:c', 'em:r', 'em:ra', 'em:u', 'em:d',       // CRUD de funcionários

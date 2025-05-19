@@ -32,6 +32,9 @@ export abstract class Default {
     // Log
     public static readonly LOG_DIR: string = 'logs'
 
+    // JWT
+    public static readonly ISSUER: string = 'barbershop'
+
     // Certificate
     // To generate self-signed certificates, see: https://devcenter.heroku.com/articles/ssl-certificate-self
     public static readonly SSL_KEY_PATH: string = '.certs/server_key.pem'
