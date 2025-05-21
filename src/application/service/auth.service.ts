@@ -11,7 +11,12 @@ import { IUserRepository } from '../port/user.repository.interface'
 // import { Default } from '../../utils/default'
 // import { ResetPasswordValidator } from '../domain/validator/reset.password.validator'
 // import { EmailUpdatePasswordEvent } from '../integration_event/event/email.update.password.event'
-import { Credentials } from '../domain/model/credentials'
+import { LoginCredentials } from '../domain/model/login.credentials'
+import { RegisterCredentials } from '../../application/domain/model/register.credentials'
+import { Client } from '../../application/domain/model/client'
+import { ConflictException } from '../../application/domain/exception/conflict.exception'
+import { Strings } from '../../utils/strings'
+import { IClientRepository } from '../../application/port/client.repository.interface'
 // import { EmailValidator } from '../domain/validator/email.validator'
 // import { ChangePasswordValidator } from '../domain/validator/change.password.validator'
 
@@ -26,18 +31,35 @@ export class AuthService implements IAuthService {
     constructor(
         @inject(Identifier.AUTH_REPOSITORY) private readonly _authRepository: IAuthRepository,
         @inject(Identifier.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
+        @inject(Identifier.CLIENT_REPOSITORY) private readonly _clientRepository: IClientRepository
         // @inject(Identifier.INTEGRATION_EVENT_REPOSITORY) private readonly _integrationEventRepo: IIntegrationEventRepository
     ) {
     }
 
-    public async authenticate(credentials: Credentials): Promise<object> {
+    public async authenticate(credentials: LoginCredentials): Promise<object> {
         try {
-            CredentialsValidator.validate(credentials)
+            CredentialsValidator.validateLogin(credentials)
 
             const result: object = await this._authRepository.authenticate(credentials)
 
-            if (result) await this._userRepository.updateLastLogin(credentials.email!!)
+            if (result) await this._userRepository.updateLastLogin(credentials.email!)
             return Promise.resolve(result)
+        } catch (err) {
+            return Promise.reject(err)
+        }
+    }
+
+    public async register(credentials: RegisterCredentials): Promise<Client | undefined> {
+        try {
+            CredentialsValidator.validateRegister(credentials)
+
+            const newClient: Client = new Client().fromJSON(credentials)
+            newClient.id = undefined
+
+            const result: boolean = await this._userRepository.checkExists(newClient)
+            if (result) throw new ConflictException(Strings.USER.ALREADY_REGISTERED)
+
+            return this._clientRepository.create(newClient)
         } catch (err) {
             return Promise.reject(err)
         }

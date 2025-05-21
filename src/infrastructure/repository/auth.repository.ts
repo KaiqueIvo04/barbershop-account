@@ -11,7 +11,7 @@ import { IEntityMapper } from '../port/entity.mapper.interface'
 import { readFileSync } from 'fs'
 import { ILogger } from '../../utils/custom.logger'
 import { IUserRepository } from '../../application/port/user.repository.interface'
-import { Credentials } from '../../application/domain/model/credentials'
+import { LoginCredentials } from '../../application/domain/model/login.credentials'
 import { UsersScopes } from '../../application/domain/utils/user.scopes'
 import { Default } from '../../utils/default'
 /**
@@ -29,7 +29,7 @@ export class AuthRepository implements IAuthRepository {
     ) {
     }
 
-    public authenticate(credentials: Credentials): Promise<object> {
+    public authenticate(credentials: LoginCredentials): Promise<object> {
         const identifier = credentials.email?.toLowerCase()
 
         return new Promise<object>((resolve, reject) => {

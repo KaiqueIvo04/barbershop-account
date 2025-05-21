@@ -1,11 +1,14 @@
-import { Credentials } from 'application/domain/model/credentials'
+import { Client } from '../../application/domain/model/client'
+import { LoginCredentials } from '../../application/domain/model/login.credentials'
+import { RegisterCredentials } from '../../application/domain/model/register.credentials'
 
 /**
  * Auth service interface.
  */
 export interface IAuthService {
-    authenticate(credentials: Credentials): Promise<object>
+    authenticate(credentials: LoginCredentials): Promise<object>
 
+    register(credentials: RegisterCredentials): Promise<Client | undefined>
     /**
      * Searches for a user by email and updates it with a token that has priority to reset their password.
      *

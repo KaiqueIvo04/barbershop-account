@@ -1,12 +1,12 @@
 // import { User } from '../../application/domain/model/user'
-import { Credentials } from '../../application/domain/model/credentials'
+import { LoginCredentials } from '../domain/model/login.credentials'
 
 /**
  * Interface of the auth repository.
  * Must be implemented by the auth repository at the infrastructure layer.
  */
 export interface IAuthRepository {
-    authenticate(credentials: Credentials): Promise<object>
+    authenticate(credentials: LoginCredentials): Promise<object>
 
     /**
      * Searches for a user by email and updates it with a token that has priority to reset their password.

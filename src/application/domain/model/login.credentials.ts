@@ -2,7 +2,7 @@ import { IJSONSerializable } from '../utils/json.serializable.interface'
 import { IJSONDeserializable } from '../utils/json.deserializable.interface'
 import { JsonUtils } from '../utils/json.utils'
 
-export class Credentials implements IJSONSerializable, IJSONDeserializable<Credentials> {
+export class LoginCredentials implements IJSONSerializable, IJSONDeserializable<LoginCredentials> {
     private _email?: string
     private _password?: string
 
@@ -22,7 +22,7 @@ export class Credentials implements IJSONSerializable, IJSONDeserializable<Crede
         this._password = value
     }
 
-    public fromJSON(json: any): Credentials {
+    public fromJSON(json: any): LoginCredentials {
         if (!json) return this
         if (typeof json === 'string' && JsonUtils.isJsonString(json)) {
             json = JSON.parse(json)
