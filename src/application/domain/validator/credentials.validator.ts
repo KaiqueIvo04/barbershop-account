@@ -52,6 +52,16 @@ export class CredentialsValidator {
         if (!register.password) fields.push('password')
         else StringValidator.validate(register.password, 'password', false, true)
 
+        if (!register.confirm_password) fields.push('confirm_password')
+        else {
+            StringValidator.validate(register.confirm_password, 'confirm_password', false, true)
+
+            if (register.password && register.password !== register.confirm_password) throw new ValidationException(
+                Strings.ERROR_MESSAGE.VALIDATE.INVALID_PASSWORD_CONFIRMATION,
+                Strings.ERROR_MESSAGE.VALIDATE.INVALID_PASSWORD_CONFIRMATION_DESC
+            )
+        }
+
         if (fields.length > 0) {
             throw new ValidationException(
                 Strings.ERROR_MESSAGE.VALIDATE.REQUIRED_FIELDS,

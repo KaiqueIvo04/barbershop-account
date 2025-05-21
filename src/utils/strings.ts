@@ -80,7 +80,9 @@ export abstract class Strings {
             INVALID_TEXT_FIELD: '{0} must contain a minimum of {1} and a maximum of {2} characters.',
             USER_CANNOT_BE_REMOVED: 'The operation could not be completed because the user in question cannot be removed.',
             INVALID_NAME_LENGTH: 'Invalid name length. Name must be between {0} and {1} characters long.',
-            MISMATCH: 'The data does not match the expected values.'
+            MISMATCH: 'The data does not match the expected values.',
+            INVALID_PASSWORD_CONFIRMATION: 'Password and confirmation password do not match.',
+            INVALID_PASSWORD_CONFIRMATION_DESC: 'password and confirm_password must be equal.'
         },
         DATE: {
             YEAR_NOT_ALLOWED: 'Date {0} has year not allowed. The year must be greater than 1678 and less than 2261.',
