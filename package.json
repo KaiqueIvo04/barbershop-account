@@ -1,5 +1,5 @@
 {
-  "name": "barber-shop-account",
+  "name": "barbershop-account",
   "version": "1.0.0",
   "description": "Microservice responsible for managing and authenticating users on the Barbershop platform.",
   "main": "dist/server.js",
@@ -30,7 +30,7 @@
     "typescript",
     "express"
   ],
-  "author": "NUTES/UEPB",
+  "author": "KaiqueIvo04",
   "license": "Apache-2.0",
   "nyc": {
     "include": [
