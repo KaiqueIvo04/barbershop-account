@@ -1,13 +1,13 @@
 import bcrypt from 'bcryptjs'
-import { IUserRepository } from 'application/port/user.repository.interface'
+import { IUserRepository } from '../../application/port/user.repository.interface'
 import { inject, injectable } from 'inversify'
 import { Identifier } from '../../di/identifiers'
 import { Query } from './query/query'
-import { IQuery } from 'application/port/query.interface'
+import { IQuery } from '../../application/port/query.interface'
 // import { Default } from 'utils/default'
 import { IEntityMapper } from '../port/entity.mapper.interface'
-import { User } from 'application/domain/model/user'
-import { UserEntity } from 'infrastructure/entity/user.entity'
+import { User } from '../../application/domain/model/user'
+import { UserEntity } from '../../infrastructure/entity/user.entity'
 import { BaseRepository } from './base/base.repository'
 
 @injectable()

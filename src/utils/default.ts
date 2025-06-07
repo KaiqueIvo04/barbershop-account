@@ -37,6 +37,6 @@ export abstract class Default {
 
     // Certificate
     // To generate self-signed certificates, see: https://devcenter.heroku.com/articles/ssl-certificate-self
-    public static readonly SSL_KEY_PATH: string = '.certs/server_key.pem'
-    public static readonly SSL_CERT_PATH: string = '.certs/server_cert.pem'
+    public static readonly SSL_KEY_PATH: string = '../.certs/server_key.pem'
+    public static readonly SSL_CERT_PATH: string = '../.certs/server_cert.pem'
 }

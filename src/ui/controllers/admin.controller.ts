@@ -15,13 +15,6 @@ import { Strings } from '../../utils/strings'
 
 @controller('/v1/admins')
 export class AdminController {
-
-    // private static handlerError(res: Response, err: any) {
-    //     const handlerError = ApiExceptionManager.build(err)
-    //     return res.status(handlerError.code)
-    //         .send(handlerError.toJSON())
-    // }
-
     constructor(
         @inject(Identifier.ADMIN_SERVICE) private readonly _adminService: IAdminService,
         @inject(Identifier.LOGGER) readonly _logger: ILogger

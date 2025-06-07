@@ -1,5 +1,5 @@
 import { IRepository } from './repository.interface'
-import { Admin } from 'application/domain/model/admin'
+import { Admin } from '../../application/domain/model/admin'
 
 /**
  * Interface of the Admin repository.

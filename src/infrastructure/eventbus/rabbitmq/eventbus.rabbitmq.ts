@@ -11,9 +11,9 @@ import { IJSONSerializable } from '../../../application/domain/utils/json.serial
 
 @injectable()
 export class EventBusRabbitMQ implements IEventBus {
-    private readonly RABBITMQ_QUEUE_NAME: string = 'mng'
-    private readonly RABBITMQ_RPC_QUEUE_NAME: string = 'mng.rpc'
-    private readonly RABBITMQ_RPC_EXCHANGE_NAME: string = 'mng.rpc'
+    private readonly RABBITMQ_QUEUE_NAME: string = 'account'
+    private readonly RABBITMQ_RPC_QUEUE_NAME: string = 'account.rpc'
+    private readonly RABBITMQ_RPC_EXCHANGE_NAME: string = 'account.rpc'
     private _receiveFromYourself: boolean
     private _event_handlers: Map<string, IIntegrationEventHandler<IntegrationEvent<IJSONSerializable>>>
     private _rpcServer!: any

@@ -1,5 +1,5 @@
 import { IRepository } from './repository.interface'
-import { User } from 'application/domain/model/user'
+import { User } from '../../application/domain/model/user'
 
 /**
  * Interface of the User repository.

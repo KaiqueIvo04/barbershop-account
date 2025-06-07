@@ -60,6 +60,10 @@ export class IntegrationEventRepository implements IIntegrationEventRepository {
         throw new Error('Not implemented!')
     }
 
+    public findById(id: string): Promise<IntegrationEvent<IJSONSerializable> | undefined> {
+        throw new Error('Not implemented!')
+    }
+
     public update(item: object): Promise<IntegrationEvent<IJSONSerializable>> {
         throw new Error('Not implemented!')
     }

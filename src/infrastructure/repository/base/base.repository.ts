@@ -66,6 +66,10 @@ export abstract class BaseRepository<T extends Entity, TModel> implements IRepos
         })
     }
 
+    public findById(id: string): Promise<T | undefined> {
+        return this.findOne(new Query().fromJSON({ filters: { _id: id } }))
+    }
+
     public update(item: T): Promise<T | undefined> {
         const itemUp: any = this.mapper.transform(item)
         return new Promise<T | undefined>((resolve, reject) => {

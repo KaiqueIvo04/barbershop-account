@@ -36,6 +36,12 @@ export interface IRepository<T> {
     findOne(query: IQuery): Promise<T | undefined>
 
     /**
+     * 
+     * @param id 
+     */
+    findById(id: string): Promise<T | undefined>
+
+    /**
      * Updates item data.
      *
      * @param item - Item containing the data to be updated

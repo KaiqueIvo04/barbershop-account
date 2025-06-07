@@ -23,7 +23,7 @@ import { User } from '../application/domain/model/user'
 import { UserEntity } from '../infrastructure/entity/user.entity'
 import { UserEntityMapper } from '../infrastructure/entity/mapper/user.entity.mapper'
 import { IEntityMapper } from '../infrastructure/port/entity.mapper.interface'
-import { IUserRepository } from 'application/port/user.repository.interface'
+import { IUserRepository } from '../application/port/user.repository.interface'
 import { UserRepository } from '../infrastructure/repository/user.repository'
 import { UsersController } from '../ui/controllers/users.controller'
 import { IUserService } from '../application/port/user.service.interface'
@@ -130,12 +130,6 @@ class IoC {
         this._container
             .bind<IIntegrationEventRepository>(Identifier.INTEGRATION_EVENT_REPOSITORY)
             .to(IntegrationEventRepository).inSingletonScope()
-    //     this._container
-    //         .bind<IGatewayRepository>(Identifier.GATEWAY_REPOSITORY)
-    //         .to(GatewayRepository).inSingletonScope()
-    //     this._container
-    //         .bind<IAuthRepository>(Identifier.AUTH_REPOSITORY)
-    //         .to(AuthRepository).inSingletonScope()
         this._container
             .bind<IUserRepository>(Identifier.USER_REPOSITORY)
             .to(UserRepository).inSingletonScope()
