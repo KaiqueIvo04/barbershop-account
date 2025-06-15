@@ -34,7 +34,6 @@ export class EmployeeController {
             const newEmployee: Employee = new Employee().fromJSON(req.body)
             newEmployee.id = undefined
             const result: Employee | undefined = await this._employeeService.add(newEmployee)
-            console.log(result)
 
             return res.status(HttpStatus.CREATED).send(this.toJSONView(result))
 

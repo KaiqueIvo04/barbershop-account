@@ -56,7 +56,6 @@ export class ConnectionMongodb implements IConnectionDB {
                 this._logger.info('Connection established with MongoDB...')
             })
             .catch((err) => {
-                console.log(err)
                 this._connection = undefined
                 this._eventConnection.emit('disconnected')
                 this._logger.warn(`Error trying to connect for the first time with mongoDB: ${err.message}`)

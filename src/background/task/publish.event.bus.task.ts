@@ -38,7 +38,6 @@ export class PublishEventBusTask implements IBackgroundTask {
             const query: IQuery = new Query().fromJSON({ pagination: { limit: Number.MAX_SAFE_INTEGER } })
             const result: Array<IntegrationEvent<IJSONSerializable>> = await this._integrationEventRepository.find(query)
             result.forEach((event: IntegrationEvent<IJSONSerializable>) => {
-                console.log(event)
                 this._eventBus.publish(event)
                     .then(success => {
                         if (success) {

@@ -17,7 +17,6 @@ export abstract class Config {
      * }
      */
     public static getMongoConfig(): IMongoConfig {
-        console.log(process.env.MONGODB_URI)
         return {
             uri: (process.env.NODE_ENV === 'test') ? (process.env.MONGODB_URI_TEST ||
                 Default.MONGODB_URI_TEST) : (process.env.MONGODB_URI || Default.MONGODB_URI),

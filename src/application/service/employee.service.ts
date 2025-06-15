@@ -23,7 +23,6 @@ export class EmployeeService implements IEmployeeService {
 
     public async add(employee: Employee): Promise<Employee | undefined> {
         try {
-            console.log(employee)
             // 1. Check employee fields
             CreateEmployeeValidator.validate(employee)
 
