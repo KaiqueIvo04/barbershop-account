@@ -34,8 +34,415 @@ tags:
   - name: Crossed Data
     description: 'Result of data crossed between attachments and invoices for a given month'
 
+  - name: Authentication
+    description: 'Endpoints for user authentication'
+
+  - name: Admins
+    description: 'Endpoints for managing admin users'
+
+  - name: Clients
+    description: 'Endpoints for managing client users'
+
+  - name: Employees
+    description: 'Endpoints for managing employee users'
+
+  - name: Users
+    description: 'Endpoints for managing users in general'
+
 
 paths:
+
+  /v1/users:
+    get:
+      tags:
+        - Users
+      summary: Retrieve a list of all users (admins, clients, employees).
+      description: This endpoint retrieves a list of all users in the system. Filters can be applied to narrow down results, for example, by user type.
+      parameters:
+        - $ref: '#/components/parameters/fieldsParam'
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/sortParam'
+        - $ref: '#/components/parameters/filterParam'
+      responses:
+        '200':
+          description: A list of users.
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total number of users matching the query.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /v1/employees:
+    post:
+      tags:
+        - Employees
+      summary: Create a new employee user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: Employee user created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          $ref: '#/components/responses/400'
+        '409':
+          $ref: '#/components/responses/409'
+    get:
+      tags:
+        - Employees
+      summary: Retrieve a list of employee users.
+      parameters:
+        - $ref: '#/components/parameters/fieldsParam'
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/sortParam'
+        - $ref: '#/components/parameters/filterParam' # Note: type: EMPLOYEE is auto-applied by backend
+      responses:
+        '200':
+          description: A list of employee users.
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total number of employee users matching the query.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /v1/employees/{employee_id}:
+    get:
+      tags:
+        - Employees
+      summary: Retrieve a specific employee user by ID.
+      parameters:
+        - name: employee_id
+          in: path
+          required: true
+          description: Identifier of the employee user.
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+        - $ref: '#/components/parameters/fieldsParam'
+      responses:
+        '200':
+          description: Successfully retrieved employee user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - Employees
+      summary: Update an existing employee user.
+      parameters:
+        - name: employee_id
+          in: path
+          required: true
+          description: Identifier of the employee user to update.
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      requestBody:
+        description: Employee user data to update. All fields are optional.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Employee user updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+
+  /v1/clients:
+    post:
+      tags:
+        - Clients
+      summary: Create a new client user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        '201':
+          description: Client user created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '400':
+          $ref: '#/components/responses/400'
+        '409':
+          $ref: '#/components/responses/409'
+    get:
+      tags:
+        - Clients
+      summary: Retrieve a list of client users.
+      parameters:
+        - $ref: '#/components/parameters/fieldsParam'
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/sortParam'
+        - $ref: '#/components/parameters/filterParam' # Note: type: CLIENT is auto-applied by backend
+      responses:
+        '200':
+          description: A list of client users.
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total number of client users matching the query.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Client'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /v1/clients/{client_id}:
+    get:
+      tags:
+        - Clients
+      summary: Retrieve a specific client user by ID.
+      parameters:
+        - name: client_id
+          in: path
+          required: true
+          description: Identifier of the client user.
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+        - $ref: '#/components/parameters/fieldsParam'
+      responses:
+        '200':
+          description: Successfully retrieved client user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - Clients
+      summary: Update an existing client user.
+      parameters:
+        - name: client_id
+          in: path
+          required: true
+          description: Identifier of the client user to update.
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      requestBody:
+        description: Client user data to update. All fields are optional.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        '200':
+          description: Client user updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+
+  /v1/admins:
+    post:
+      tags:
+        - Admins
+      summary: Create a new admin user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Admin' # Request will use Admin schema minus readOnly fields
+      responses:
+        '201':
+          description: Admin user created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+        '400':
+          $ref: '#/components/responses/400'
+        '409':
+          $ref: '#/components/responses/409'
+    get:
+      tags:
+        - Admins
+      summary: Retrieve a list of admin users.
+      parameters:
+        - $ref: '#/components/parameters/fieldsParam'
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/sortParam'
+        - $ref: '#/components/parameters/filterParam' # Note: type: ADMIN is auto-applied by backend
+      responses:
+        '200':
+          description: A list of admin users.
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total number of admin users matching the query.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Admin'
+        '400':
+          $ref: '#/components/responses/400'
+
+  /v1/admins/{admin_id}:
+    get:
+      tags:
+        - Admins
+      summary: Retrieve a specific admin user by ID.
+      parameters:
+        - name: admin_id
+          in: path
+          required: true
+          description: Identifier of the admin user.
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011' # Example ObjectId
+        - $ref: '#/components/parameters/fieldsParam'
+      responses:
+        '200':
+          description: Successfully retrieved admin user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - Admins
+      summary: Update an existing admin user.
+      parameters:
+        - name: admin_id
+          in: path
+          required: true
+          description: Identifier of the admin user to update.
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      requestBody:
+        description: Admin user data to update. All fields are optional.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Admin' # Using Admin schema, but all props are optional for PATCH
+      responses:
+        '200':
+          description: Admin user updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+
+  /v1/auth:
+    post:
+      tags:
+        - Authentication
+      summary: User Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginCredentials'
+      responses:
+        '200':
+          description: Authentication successful, returns access token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  acc_token:
+                    type: string
+                    description: Access Token
+                  token_type:
+                    type: string
+                    example: Bearer
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          description: Invalid email or password.
+          $ref: '#/components/responses/401'
+
+  /v1/auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: User Registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterCredentials'
+      responses:
+        '201':
+          description: User registration successful, returns the newly created user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client' # Or a generic User schema
+        '400':
+          $ref: '#/components/responses/400'
+        '409':
+          $ref: '#/components/responses/409'
 
   /scanc/companies:
     get:
@@ -1931,6 +2338,279 @@ components:
         description:
           type: string
           description: Detailed description of the error.
+
+    LoginCredentials:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    RegisterCredentials:
+      type: object
+      required:
+        - email
+        - password
+        - type
+        - name
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        type:
+          type: string
+          enum: [admin, client, employee]
+        name:
+          type: string
+        phone_number:
+          type: string
+          nullable: true
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+        gender:
+          type: string
+          enum: [male, female, undefined]
+          nullable: true
+
+    Client:
+      type: object
+      required: # For POST /v1/clients
+        - email
+        - password
+        - name
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: "Unique identifier for the client user"
+        email:
+          type: string
+          format: email
+          description: "Email address of the client user"
+        name:
+          type: string
+          description: "Name of the client user"
+        type:
+          type: string
+          description: "User type"
+          enum: [client]
+          default: client
+          readOnly: true # Should be set by server or path context
+        password:
+          type: string
+          format: password
+          writeOnly: true # Not for GET responses
+          description: "Client user's password"
+        phone_number:
+          type: string
+          nullable: true
+          description: "Client user's phone number"
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+          description: "Client user's birth date"
+        gender:
+          type: string
+          enum: ['male', 'female', 'undefined']
+          nullable: true
+          description: "Client user's gender"
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: "Timestamp of when the client user was created"
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: "Timestamp of when the client user was last updated"
+        last_login:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          description: "Timestamp of last login"
+
+    Admin:
+      type: object
+      required: # For POST /v1/admins
+        - email
+        - password
+        - name
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: "Unique identifier for the admin user"
+        email:
+          type: string
+          format: email
+          description: "Email address of the admin user"
+        name:
+          type: string
+          description: "Name of the admin user"
+        type:
+          type: string
+          description: "User type"
+          enum: [admin]
+          default: admin
+          readOnly: true # Should be set by server or path context
+        password:
+          type: string
+          format: password
+          writeOnly: true # Not for GET responses
+          description: "Admin user's password"
+        phone_number:
+          type: string
+          nullable: true
+          description: "Admin user's phone number"
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+          description: "Admin user's birth date"
+        gender:
+          type: string
+          enum: ['male', 'female', 'undefined']
+          nullable: true
+          description: "Admin user's gender"
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: "Timestamp of when the admin user was created"
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: "Timestamp of when the admin user was last updated"
+        last_login:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          description: "Timestamp of last login"
+
+    Employee:
+      type: object
+      required: # For POST /v1/employees
+        - email
+        - password
+        - name
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: "Unique identifier for the employee user"
+        email:
+          type: string
+          format: email
+          description: "Email address of the employee user"
+        name:
+          type: string
+          description: "Name of the employee user"
+        type:
+          type: string
+          description: "User type"
+          enum: [employee]
+          default: employee
+          readOnly: true # Should be set by server or path context
+        password:
+          type: string
+          format: password
+          writeOnly: true # Not for GET responses
+          description: "Employee user's password"
+        phone_number:
+          type: string
+          nullable: true
+          description: "Employee user's phone number"
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+          description: "Employee user's birth date"
+        gender:
+          type: string
+          enum: ['male', 'female', 'undefined']
+          nullable: true
+          description: "Employee user's gender"
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: "Timestamp of user creation"
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: "Timestamp of last user update"
+        last_login:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          description: "Timestamp of last login"
+
+    User: # Generic User schema for GET /v1/users responses
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: "Unique identifier for the user"
+        email:
+          type: string
+          format: email
+          description: "Email address of the user"
+        name:
+          type: string
+          description: "Name of the user"
+        type:
+          type: string
+          description: "Type of the user (e.g., admin, client, employee)"
+          enum: ['admin', 'client', 'employee']
+        phone_number:
+          type: string
+          nullable: true
+          description: "User's phone number"
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+          description: "User's birth date"
+        gender:
+          type: string
+          enum: ['male', 'female', 'undefined']
+          nullable: true
+          description: "User's gender"
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: "Timestamp of user creation"
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: "Timestamp of last user update"
+        last_login:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          description: "Timestamp of last login"
 
     Header:
       type: object
