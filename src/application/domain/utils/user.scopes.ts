@@ -17,14 +17,15 @@ export abstract class UsersScopes {
     'sv:c', 'sv:r', 'sv:ra', 'sv:u', 'sv:d',       // CRUD de serviços oferecidos
     'sv:p',                                         // Definir preços dos serviços
 
-    // Agendamentos
-    'ap:c', 'ap:r', 'ap:ra', 'ap:u', 'ap:d',       // CRUD de agendamentos
-    'ap:us',                                        // Atualizar status dos agendamentos
-    'ap:re',                                        // Relatórios de agendamentos
+    // Agendamentos de serviços
+    'sc:c', 'sc:r', 'sc:ra', 'sc:u', 'sc:d',       // CRUD de agendamentos de serviços
+    'sc:us',                                        // Atualizar status dos agendamentos de serviços
+    'sc:re',                                        // Relatórios de agendamentos de serviços
 
-    // Produtos
-    'pr:c', 'pr:r', 'pr:ra', 'pr:u', 'pr:d',       // CRUD de produtos
-    'pr:s', 'pr:st',                                // Vendas e controle de estoque
+    // Agendamentos de trabalho
+    'ws:c', 'ws:r', 'ws:ra', 'ws:u', 'ws:d',       // CRUD de agendamentos de trabalho
+    'ws:us',                                        // Atualizar status dos agendamentos de trabalho
+    'ws:re',                                        // Relatórios de agendamentos de trabalho
   ]
 
   public static readonly CLIENT: Array<string> = [
@@ -35,13 +36,11 @@ export abstract class UsersScopes {
     // Serviços
     'sv:r', 'sv:ra',                                // Ver serviços disponíveis
 
-    // Agendamentos
-    'ap:c', 'ap:r', 'ap:u', 'ap:d',                // CRUD dos próprios agendamentos
-    'ap:em',                                        // Ver disponibilidade dos funcionários para agendamento
+    // Agendamentos de serviços
+    'sc:c', 'sc:r',                                 // Criar e ler agendamentos de serviços
 
-    // Produtos
-    'pr:r', 'pr:ra',                                // Ver produtos disponíveis
-    'pr:p',
+    // Agendamentos de trabalho
+    'ws:r', 'ws:ra',                                // Ver agendamentos de trabalho dos funcionários
   ]
 
   public static readonly EMPLOYEE: Array<string> = [
@@ -55,14 +54,11 @@ export abstract class UsersScopes {
     // Serviços
     'sv:r', 'sv:ra',                                // Ver serviços disponíveis
 
-    // Agendamentos
-    'ap:c', 'ap:r', 'ap:ra', 'ap:u',                // Criar, ler e atualizar agendamentos (sem delete)
-    'ap:us',                                        // Atualizar status dos agendamentos (iniciado, concluído)
-    'ap:em',                                        // Ver própria agenda/disponibilidade
+    // Agendamentos de serviços
+    'sc:r', 'sc:u', 'sc:d',                         // Ler, atualizar e deletar agendamentos de serviços
 
-    // Produtos
-    'pr:r', 'pr:ra',                                // Ver produtos disponíveis
-    'pr:s',
+    // Agendamentos de trabalho
+    'ws:r', 'ws:ra',                                // Ver agendamentos de trabalho dos funcionários
   ]
 
   public static getUserScopes(type: string): Array<string> {
