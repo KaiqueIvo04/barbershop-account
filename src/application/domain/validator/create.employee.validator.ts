@@ -22,13 +22,16 @@ export class CreateEmployeeValidator {
         if (employee.password === undefined) fields.push('password')
         else UserParamsValidator.validatePassword(employee.password, 'password')
 
+        if (employee.role === undefined) fields.push('role')
+        else StringValidator.validate(employee.role, 'role', false, false)
+
+        if (employee.responsible_admin_id === undefined) fields.push('responsible_admin_id')
+        else ObjectIdValidator.validate(employee.responsible_admin_id)
+
         // Optional fields
         if (employee.contact_personal !== undefined) PhoneValidator.validate(employee.contact_personal, false)
-        if (employee.role !== undefined) StringValidator.validate(employee.role, 'role', false, false)
         if (employee.avaliable !== undefined) BooleanValidator.validate(employee.avaliable, 'avaliable')
-        if (employee.responsible_admin_id !== undefined) ObjectIdValidator.validate(employee.responsible_admin_id)
 
         if (fields.length > 0) throw new ValidationException('REQUIRED_FIELDS', fields.join(', '))
-
     }
 }
