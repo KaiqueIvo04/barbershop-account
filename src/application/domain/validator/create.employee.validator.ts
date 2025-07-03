@@ -7,9 +7,10 @@ import { PhoneValidator } from './phone.validator'
 import { StringValidator } from './string.validator'
 import { BooleanValidator } from './boolean.validator'
 import { ObjectIdValidator } from './object.id.validator'
+import { Strings } from '../../../utils/strings'
 
 export class CreateEmployeeValidator {
-    public static validate(employee: Employee): void | ValidationException{
+    public static validate(employee: Employee): void | ValidationException {
         const fields: Array<string> = []
 
         // Required fields
@@ -32,6 +33,9 @@ export class CreateEmployeeValidator {
         if (employee.contact_personal !== undefined) PhoneValidator.validate(employee.contact_personal, false)
         if (employee.avaliable !== undefined) BooleanValidator.validate(employee.avaliable, 'avaliable')
 
-        if (fields.length > 0) throw new ValidationException('REQUIRED_FIELDS', fields.join(', '))
+        if (fields.length > 0) throw new ValidationException(
+            Strings.ERROR_MESSAGE.VALIDATE.REQUIRED_FIELDS,
+            Strings.ERROR_MESSAGE.VALIDATE.REQUIRED_FIELDS_DESC.replace('{0}', fields.join(', '))
+        )
     }
 }

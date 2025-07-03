@@ -3,6 +3,7 @@ import { ValidationException } from '../exception/validation.exception'
 import { UserParamsValidator } from './user.params.validator'
 import { PhoneValidator } from './phone.validator'
 import { EmailValidator } from './email.validator'
+import { Strings } from '../../../utils/strings'
 
 export class CreateUserValidator {
     public static validate(user: User) {
@@ -21,6 +22,9 @@ export class CreateUserValidator {
         // Optional fields
         if (user.contact_personal !== undefined) PhoneValidator.validate(user.contact_personal, false)
 
-        if (fields.length > 0) throw new ValidationException('REQUIRED_FIELDS', fields.join(', '))
+        if (fields.length > 0) throw new ValidationException(
+            Strings.ERROR_MESSAGE.VALIDATE.REQUIRED_FIELDS,
+            Strings.ERROR_MESSAGE.VALIDATE.REQUIRED_FIELDS_DESC.replace('{0}', fields.join(', '))
+        )
     }
 }
