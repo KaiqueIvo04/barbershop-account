@@ -34,19 +34,23 @@
   "license": "Apache-2.0",
   "nyc": {
     "include": [
-      "dist/src/ui/**/**.js",
-      "dist/src/application/**/**.js",
-      "dist/src/background/**/**.js",
-      "dist/src/infrastructure/database/**/**.js",
-      "dist/src/infrastructure/entity/**/**.js",
-      "dist/src/infrastructure/eventbus/**/**.js",
-      "dist/src/infrastructure/port/**/**.js",
-      "dist/src/infrastructure/repository/**/**.js",
-      "dist/src/di/**/**.js",
-      "dist/src/utils/**/**.js",
-      "dist/src/app.js",
-      "dist/server.js"
-    ]
+        "**/*.tsx",
+        "**/*.ts"
+      ],
+      "exclude": [
+        "**/*.d.ts",
+        "test/*",
+        "config/*"
+      ],
+      "extension": [
+        ".ts",
+        ".tsx"
+      ],
+      "reporter": [
+        "text-summary",
+        "html"
+      ],
+      "all": true
   },
   "dependencies": {
     "amqp-client-node": "^1.0.11",
