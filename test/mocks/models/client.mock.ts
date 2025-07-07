@@ -2,7 +2,7 @@ import { Client } from '../../../src/application/domain/model/client'
 import { DefaultFunctions } from '../utils/default.functions'
 
 export class ClientMock {
-    public generate(): Client {
+    public static generate(): Client {
         const client: Client = new Client()
         client.id = DefaultFunctions.generateObjectId()
         client.name = 'Client mock'

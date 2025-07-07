@@ -12,7 +12,7 @@ export class UpdateUserValidator {
             try {
                 ObjectIdValidator.validate(user.id)
             } catch (err) {
-                throw new ValidationException(Strings.ADMIN.PARAM_ID_NOT_VALID_FORMAT)
+                throw new ValidationException(Strings.USER.PARAM_ID_NOT_VALID_FORMAT)
             }
         }
         if (user.name !== undefined) UserParamsValidator.validateName(user.name)

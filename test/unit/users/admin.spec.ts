@@ -65,7 +65,7 @@ describe('Admin Validator Tests', () => {
             const admin = new Admin()
             admin.id = 'invalid_id'
 
-            expect(() => UpdateAdminValidator.validate(admin)).to.throw(ValidationException, Strings.ADMIN.PARAM_ID_NOT_VALID_FORMAT);
+            expect(() => UpdateAdminValidator.validate(admin)).to.throw(ValidationException, Strings.USER.PARAM_ID_NOT_VALID_FORMAT);
         })
 
         it('should throw ValidationException when email is invalid', () => {

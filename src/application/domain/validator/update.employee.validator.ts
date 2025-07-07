@@ -14,7 +14,7 @@ export class UpdateEmployeeValidator{
             try {
                 ObjectIdValidator.validate(employee.id)
             } catch (err) {
-                throw new ValidationException('USER_ID_INVALID')
+                throw new ValidationException(Strings.USER.PARAM_ID_NOT_VALID_FORMAT)
             }
         }
         if (employee.name !== undefined) UserParamsValidator.validateName(employee.name)
