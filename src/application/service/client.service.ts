@@ -11,6 +11,7 @@ import { Strings } from '../../utils/strings'
 import { IQuery } from '../../application/port/query.interface'
 import { ObjectIdValidator } from '../../application/domain/validator/object.id.validator'
 import { UpdateClientValidator } from '../../application/domain/validator/update.client.validator'
+import { NotFoundException } from 'application/domain/exception/not.found.exception'
 
 @injectable()
 export class ClientService implements IClientService {
@@ -76,7 +77,24 @@ export class ClientService implements IClientService {
     }
 
     public async remove(id: string): Promise<boolean> {
-        throw new Error('Unsupported feature!')
+        try {
+            // 1. Validate id parameter
+            ObjectIdValidator.validate(id, Strings.CLIENT.PARAM_ID_NOT_VALID_FORMAT)
+
+            // 2. Check if client exists
+            const client = await this._userRepository.findByIdAndType(id, UserType.CLIENT)
+            if (!client) {
+                throw new NotFoundException(
+                    Strings.CLIENT.NOT_FOUND,
+                    Strings.CLIENT.NOT_FOUND_DESCRIPTION
+                )
+            }
+
+            // 3. Remove client
+            return this._clientRepository.delete(id)
+        } catch (err) {
+            return Promise.reject(err)
+        }
     }
 
     public count(query: IQuery): Promise<number> {

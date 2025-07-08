@@ -89,7 +89,24 @@ export class EmployeeService implements IEmployeeService {
     }
 
     public async remove(id: string): Promise<boolean> {
-        throw new Error('Unsupported feature!')
+        try {
+            // 1. Validate id parameter
+            ObjectIdValidator.validate(id, Strings.EMPLOYEE.PARAM_ID_NOT_VALID_FORMAT)
+
+            // 2. Check if employee exists
+            const employee = await this._userRepository.findByIdAndType(id, UserType.EMPLOYEE)
+            if (!employee) {
+                throw new NotFoundException(
+                    Strings.EMPLOYEE.NOT_FOUND,
+                    Strings.EMPLOYEE.NOT_FOUND_DESCRIPTION
+                )
+            }
+
+            // 3. Remove employee
+            return this._employeeRepository.delete(id)
+        } catch (err) {
+            return Promise.reject(err)
+        }
     }
 
     public count(query: IQuery): Promise<number> {

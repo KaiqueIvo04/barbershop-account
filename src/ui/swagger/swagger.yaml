@@ -364,6 +364,31 @@ paths:
           $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
+    delete:
+      security:
+        - JWTAuth: ['cl:d']
+      tags:
+        - Clients
+      summary: Delete a specific client user by ID.
+      parameters:
+        - name: client_id
+          in: path
+          required: true
+          description: Identifier of the client user to delete.
+          schema:
+            type: string
+            example: "507f1f77bcf86cd799439011"
+      responses:
+        "204":
+          description: Client user deleted successfully.
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
           
   /v1/employees:
     post:
@@ -497,7 +522,32 @@ paths:
           $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
-
+    delete:
+      security:
+        - JWTAuth: ['em:d']
+      tags:
+        - Employees
+      summary: Delete a specific employee user by ID.
+      parameters:
+        - name: employee_id
+          in: path
+          required: true
+          description: Identifier of the employee user to delete.
+          schema:
+            type: string
+            example: "507f1f77bcf86cd799439011"
+      responses:
+        "204":
+          description: Employee user deleted successfully.
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+          
   /v1/users:
     get:
       security:

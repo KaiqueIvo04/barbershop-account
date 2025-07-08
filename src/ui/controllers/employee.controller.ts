@@ -1,5 +1,5 @@
 import { inject } from 'inversify'
-import { controller, httpGet, httpPatch, httpPost, request, response } from 'inversify-express-utils'
+import { controller, httpDelete, httpGet, httpPatch, httpPost, request, response } from 'inversify-express-utils'
 import { Request, Response } from 'express'
 import HttpStatus from 'http-status-codes'
 import { Identifier } from '../../di/identifiers'
@@ -66,7 +66,7 @@ export class EmployeeController {
     public async getEmployeeById(@request() req: Request, @response() res: Response): Promise<Response> {
         try {
             const query: IQuery = new Query().fromJSON(req.query)
-            query.addFilter({ _id: req.params.employee_id, type: UserType.EMPLOYEE})
+            query.addFilter({ _id: req.params.employee_id, type: UserType.EMPLOYEE })
 
             const result: Employee | undefined = await this._employeeService.getById(req.params.employee_id, query)
 
@@ -90,6 +90,19 @@ export class EmployeeController {
 
             if (!result) throw new NotFoundException(Strings.EMPLOYEE.NOT_FOUND, Strings.EMPLOYEE.NOT_FOUND_DESCRIPTION)
             return res.status(HttpStatus.OK).send(this.toJSONView(result))
+        } catch (err: any) {
+            const handlerError = ApiExceptionManager.build(err)
+            return res.status(handlerError.code)
+                .send(handlerError.toJSON())
+        }
+    }
+
+    @httpDelete('/:employee_id')
+    public async deleteEmpoyeeById(@request() req: Request, @response() res: Response): Promise<Response> {
+        try {
+            await this._employeeService.remove(req.params.employee_id)
+
+            return res.status(HttpStatus.NO_CONTENT).send()
         } catch (err: any) {
             const handlerError = ApiExceptionManager.build(err)
             return res.status(handlerError.code)

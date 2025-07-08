@@ -1,5 +1,5 @@
 import { inject } from 'inversify'
-import { controller, httpGet, httpPatch, httpPost, request, response } from 'inversify-express-utils'
+import { controller, httpGet, httpPatch, httpPost, httpDelete, request, response } from 'inversify-express-utils'
 import { Request, Response } from 'express'
 import HttpStatus from 'http-status-codes'
 import { Identifier } from '../../di/identifiers'
@@ -15,13 +15,6 @@ import { IClientService } from '../../application/port/client.service.interface'
 
 @controller('/v1/clients')
 export class ClientController {
-
-    // private static handlerError(res: Response, err: any) {
-    //     const handlerError = ApiExceptionManager.build(err)
-    //     return res.status(handlerError.code)
-    //         .send(handlerError.toJSON())
-    // }
-
     constructor(
         @inject(Identifier.CLIENT_SERVICE) private readonly _clientService: IClientService,
         @inject(Identifier.LOGGER) readonly _logger: ILogger
@@ -90,6 +83,20 @@ export class ClientController {
 
             if (!result) throw new NotFoundException(Strings.CLIENT.NOT_FOUND, Strings.CLIENT.NOT_FOUND_DESCRIPTION)
             return res.status(HttpStatus.OK).send(this.toJSONView(result))
+        } catch (err: any) {
+            const handlerError = ApiExceptionManager.build(err)
+            return res.status(handlerError.code)
+                .send(handlerError.toJSON())
+        }
+    }
+
+
+    @httpDelete('/:client_id')
+    public async deleteEmpoyeeById(@request() req: Request, @response() res: Response): Promise<Response> {
+        try {
+            await this._clientService.remove(req.params.client_id)
+
+            return res.status(HttpStatus.NO_CONTENT).send()
         } catch (err: any) {
             const handlerError = ApiExceptionManager.build(err)
             return res.status(handlerError.code)
