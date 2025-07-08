@@ -92,7 +92,7 @@ export class ClientController {
 
 
     @httpDelete('/:client_id')
-    public async deleteEmpoyeeById(@request() req: Request, @response() res: Response): Promise<Response> {
+    public async deleteClientById(@request() req: Request, @response() res: Response): Promise<Response> {
         try {
             await this._clientService.remove(req.params.client_id)
 

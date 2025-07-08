@@ -11,7 +11,7 @@ import { Strings } from '../../utils/strings'
 import { IQuery } from '../../application/port/query.interface'
 import { ObjectIdValidator } from '../../application/domain/validator/object.id.validator'
 import { UpdateClientValidator } from '../../application/domain/validator/update.client.validator'
-import { NotFoundException } from 'application/domain/exception/not.found.exception'
+import { NotFoundException } from '../domain/exception/not.found.exception'
 
 @injectable()
 export class ClientService implements IClientService {
