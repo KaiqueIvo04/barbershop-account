@@ -1,5 +1,4 @@
 # Barbershop Account Microservice
-[![Node][node-image]][node-url] [![Swagger][swagger-image]][swagger-url] 
 
 The Barbershop Account Microservice is a core component of the Barbershop platform, responsible for managing and authenticating all users, including administrators, clients, and employees. This microservice provides a secure and reliable way to handle user data, authentication, and authorization.
 
